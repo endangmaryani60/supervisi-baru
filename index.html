@@ -1,0 +1,3078 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)file:///D:/down/si-supak%20(9).html -->
+<html lang="id"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SI SUPAK - Sistem Informasi Supervisi Akademik</title>
+<script src="./index_files/saved_resource"></script>
+<script src="./index_files/xlsx.full.min.js.download"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
+  :root{
+    --navy:#0f2540; --navy2:#16345c; --gold:#c9973f; --gold2:#e0b563;
+    --bg:#f4f6f9; --ink:#16233a; --muted:#5b6b84; --line:#e2e7ef;
+    --ok:#1c8a5c; --warn:#c9973f; --danger:#c0392b; --info:#2563a8;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Manrope',sans-serif; background:var(--bg); color:var(--ink); margin:0;}
+  h1,h2,h3,.display{font-family:'Plus Jakarta Sans',sans-serif;}
+  .card{background:#fff; border:1px solid var(--line); border-radius:14px;}
+  .btn{border-radius:10px; font-weight:600; transition:all .15s ease; cursor:pointer;}
+  .btn-primary{background:var(--navy); color:#fff;}
+  .btn-primary:hover{background:var(--navy2);}
+  .btn-gold{background:var(--gold); color:#1f1400;}
+  .btn-gold:hover{background:var(--gold2);}
+  .btn-ghost{background:transparent; border:1px solid var(--line); color:var(--ink);}
+  .btn-ghost:hover{background:#f0f2f6;}
+  .btn-danger{background:#fdecea; color:var(--danger); border:1px solid #f5c6bf;}
+  .btn-danger:hover{background:#fbdbd6;}
+  input,select,textarea{border:1px solid var(--line); border-radius:9px; padding:8px 12px; width:100%; font-family:inherit; font-size:14px; background:#fff;}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--navy); outline-offset:1px;}
+  .fade-in{animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .sidebar-link{display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; color:#c9d4e4; font-size:14px; font-weight:500; cursor:pointer; transition:.15s;}
+  .sidebar-link:hover{background:rgba(255,255,255,.06); color:#fff;}
+  .sidebar-link.active{background:var(--gold); color:#1f1400; font-weight:700;}
+  table{border-collapse:collapse; width:100%; font-size:13.5px;}
+  th{background:#f0f2f6; text-align:left; padding:10px 12px; font-weight:700; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.03em; border-bottom:1px solid var(--line);}
+  td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+  .badge{display:inline-block; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700;}
+  .badge-ok{background:#e6f6ee; color:var(--ok);}
+  .badge-warn{background:#fbf0dc; color:#946a1a;}
+  .badge-idle{background:#eef1f5; color:var(--muted);}
+  .badge-danger{background:#fdecea; color:var(--danger);}
+  .modal-bg{position:fixed; inset:0; background:rgba(15,37,64,.55); display:flex; align-items:center; justify-content:center; z-index:50; padding:16px; animation:bgIn .18s ease;}
+  .scale-btn{width:38px; height:38px; border-radius:9px; border:1px solid var(--line); font-weight:700; cursor:pointer; background:#fff; transition:.15s ease;}
+  .scale-btn.on{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .scale-btn:hover{transform:translateY(-1px); box-shadow:0 4px 10px rgba(15,37,64,.12);}
+  ::-webkit-scrollbar{width:9px; height:9px;} ::-webkit-scrollbar-thumb{background:#c7d0dc; border-radius:8px;}
+
+  /* ---------- Dynamic / up-to-date motion system ---------- */
+  html{scroll-behavior:smooth;}
+  .card{transition:box-shadow .2s ease, transform .2s ease;}
+  .card.card-hover:hover{box-shadow:0 10px 24px rgba(15,37,64,.09); transform:translateY(-2px);}
+  .btn{transition:transform .15s ease, box-shadow .15s ease, background .15s ease;}
+  .btn:hover{transform:translateY(-1px); box-shadow:0 6px 14px rgba(15,37,64,.12);}
+  .btn:active{transform:translateY(0) scale(.97); box-shadow:none;}
+  .sidebar-link{transition:background .18s ease, color .18s ease, transform .18s ease;}
+  .sidebar-link:hover{transform:translateX(3px);}
+  tbody tr{transition:background-color .15s ease;}
+  tbody tr:hover{background:#f7f9fc;}
+  @keyframes bgIn{from{opacity:0;} to{opacity:1;}}
+  @keyframes modalIn{from{opacity:0; transform:translateY(10px) scale(.97);} to{opacity:1; transform:translateY(0) scale(1);}}
+  .modal-bg > .card{animation:modalIn .22s cubic-bezier(.2,.8,.3,1);}
+  @keyframes rowIn{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+  .row-in{animation:rowIn .3s ease both;}
+  @keyframes toastIn{from{opacity:0; transform:translateY(10px) scale(.96);} to{opacity:1; transform:translateY(0) scale(1);}}
+  .toast-in{animation:toastIn .25s cubic-bezier(.2,.8,.3,1);}
+  .bar-fill{transform-origin:left; animation:growBar .8s cubic-bezier(.22,.61,.36,1) both;}
+  @keyframes growBar{from{transform:scaleX(0);} to{transform:scaleX(1);}}
+  input,select,textarea{transition:border-color .15s ease, box-shadow .15s ease;}
+  .badge{transition:background .2s ease, color .2s ease;}
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-y-0{top:0px;bottom:0px}.left-0{left:0px}.right-0{right:0px}.bottom-5{bottom:1.25rem}.right-5{right:1.25rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-1{margin-top:0.25rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.mb-3{margin-bottom:0.75rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mb-5{margin-bottom:1.25rem}.mb-16{margin-bottom:4rem}.mt-10{margin-top:2.5rem}.mt-3{margin-top:0.75rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.max-h-\[480px\]{max-height:480px}.min-h-screen{min-height:100vh}.w-1\/2{width:50%}.w-full{width:100%}.\!w-auto{width:auto !important}.w-64{width:16rem}.min-w-0{min-width:0px}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.max-w-6xl{max-width:72rem}.max-w-xl{max-width:36rem}.max-w-lg{max-width:32rem}.max-w-3xl{max-width:48rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.shrink-0{flex-shrink:0}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-1{gap:0.25rem}.gap-5{gap:1.25rem}.gap-6{gap:1.5rem}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.p-14{padding:3.5rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.p-3{padding:0.75rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pl-3{padding-left:0.75rem}.pl-4{padding-left:1rem}.pl-9{padding-left:2.25rem}.pr-3{padding-right:0.75rem}.pr-9{padding-right:2.25rem}.pt-8{padding-top:2rem}.pt-4{padding-top:1rem}.pt-2{padding-top:0.5rem}.pb-4{padding-bottom:1rem}.text-center{text-align:center}.text-right{text-align:right}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[11px\]{font-size:11px}.text-\[15px\]{font-size:15px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.leading-none{line-height:1}.tracking-wide{letter-spacing:0.025em}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/35{color:rgb(255 255 255 / 0.35)}.text-white\/50{color:rgb(255 255 255 / 0.5)}.text-white\/55{color:rgb(255 255 255 / 0.55)}.text-white\/80{color:rgb(255 255 255 / 0.8)}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-white\/45{color:rgb(255 255 255 / 0.45)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}@media (min-width: 768px){.md\:col-span-2{grid-column:span 2 / span 2}.md\:col-span-1{grid-column:span 1 / span 1}.md\:flex{display:flex}.md\:hidden{display:none}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:p-8{padding:2rem}}@media (min-width: 1024px){.lg\:flex{display:flex}.lg\:hidden{display:none}.lg\:w-1\/2{width:50%}}</style></head>
+<body>
+<div id="root">
+  <div class="flex min-h-screen">
+    <aside class="w-64 shrink-0 hidden md:flex flex-col justify-between p-4" style="background:linear-gradient(180deg,var(--navy),#0a1a2e); min-height:100vh;">
+      <div>
+        <div class="flex items-center gap-3 px-2 mb-6 mt-2">
+          <div style="width:38px;height:38px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;color:#1f1400;">S</div>
+          <div>
+            <div class="display font-extrabold text-white text-[15px] leading-none">SI SUPAK</div>
+            <div class="text-[11px] text-white/45 mt-1">SMKN 1 Ketapang</div>
+          </div>
+        </div>
+        <nav class="space-y-1">
+          <div class="sidebar-link " data-route="dashboard"><span>📊</span><span>Dashboard</span></div><div class="sidebar-link " data-route="program"><span>🗂️</span><span>Program Supervisi</span></div><div class="sidebar-link " data-route="guru"><span>👩‍🏫</span><span>Data Guru</span></div><div class="sidebar-link " data-route="dokumen"><span>📎</span><span>Dokumen Perangkat</span></div><div class="sidebar-link " data-route="instrumen"><span>📝</span><span>Instrumen Supervisi</span></div><div class="sidebar-link " data-route="laporan"><span>📄</span><span>Laporan Hasil</span></div><div class="sidebar-link " data-route="tindaklanjut"><span>✅</span><span>Tindak Lanjut</span></div><div class="sidebar-link active" data-route="akun"><span>🔐</span><span>Manajemen Akun</span></div><div class="sidebar-link " data-route="pengaturan"><span>⚙️</span><span>Pengaturan Sekolah</span></div>
+        </nav>
+      </div>
+      <div class="px-2">
+        <div class="flex items-center gap-2 mb-3 px-2 py-2 rounded-lg" style="background:rgba(255,255,255,.06)">
+          <div style="width:32px;height:32px;border-radius:999px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;color:#1f1400;font-size:13px;">K</div>
+          <div class="min-w-0">
+            <div class="text-white text-xs font-semibold truncate">Kepala Sekolah</div>
+            <div class="text-[10px]"><span class="badge badge-warn">Kepala Sekolah</span></div>
+          </div>
+        </div>
+        <button id="logoutBtn" class="btn btn-ghost w-full text-sm py-2" style="color:#fff;border-color:rgba(255,255,255,.2);">Keluar</button>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0">
+      <header class="md:hidden flex items-center justify-between p-3 text-white" style="background:var(--navy);">
+        <div class="font-bold display">SI SUPAK</div>
+        <select id="mobileNav" class="!w-auto text-black">
+          <option value="dashboard">Dashboard</option><option value="program">Program Supervisi</option><option value="guru">Data Guru</option><option value="dokumen">Dokumen Perangkat</option><option value="instrumen">Instrumen Supervisi</option><option value="laporan">Laporan Hasil</option><option value="tindaklanjut">Tindak Lanjut</option><option value="akun" selected="">Manajemen Akun</option><option value="pengaturan">Pengaturan Sekolah</option>
+        </select>
+      </header>
+      <div class="p-4 md:p-8 max-w-6xl mx-auto fade-in">
+        
+        
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <div>
+      <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Manajemen Akun</h1>
+      <p class="text-sm mt-1" style="color:var(--muted)">94 akun terdaftar (1 Kepala Sekolah, 93 Guru).</p>
+    </div>
+    <input id="akunSearch" placeholder="Cari akun..." value="" style="width:220px;">
+  </div>
+  <div class="card overflow-x-auto">
+    <table>
+      <thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Login Terakhir</th><th></th></tr></thead>
+      <tbody>
+      
+        <tr>
+          <td class="font-semibold">Kepala Sekolah</td>
+          <td>@admin</td>
+          <td><span class="badge badge-warn">Kepala Sekolah</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">1/8/2026, 12.06.56</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="admin">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="admin">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="admin">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">M. Ajon, S.Pd</td>
+          <td>@197001101997021003</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197001101997021003">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197001101997021003">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197001101997021003">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Irawan, S.Pd</td>
+          <td>@197004192000031003</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197004192000031003">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197004192000031003">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197004192000031003">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rosilawati, S.Pd</td>
+          <td>@196707182000122002</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="196707182000122002">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="196707182000122002">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="196707182000122002">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rayadi, S.Pd</td>
+          <td>@196810302001011001</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="196810302001011001">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="196810302001011001">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="196810302001011001">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Suryatina, SE</td>
+          <td>@197309011995032004</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197309011995032004">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197309011995032004">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197309011995032004">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Suryati, S.Pd</td>
+          <td>@197709062002122004</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197709062002122004">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197709062002122004">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197709062002122004">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Hery Gunawan, S.Kom</td>
+          <td>@197704262006041007</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197704262006041007">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197704262006041007">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197704262006041007">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ratnawati, S.Pd</td>
+          <td>@197301032000122002</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197301032000122002">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197301032000122002">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197301032000122002">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Dyantika Puspitasari, S.Pd</td>
+          <td>@198301172006042011</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198301172006042011">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198301172006042011">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198301172006042011">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Wiwin Wulandari, SE</td>
+          <td>@197512132007012018</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197512132007012018">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197512132007012018">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197512132007012018">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sumanti, S.Pd</td>
+          <td>@197606012006042034</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197606012006042034">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197606012006042034">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197606012006042034">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sumiyatun, S.Pd.Ing</td>
+          <td>@196608021992032006</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="196608021992032006">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="196608021992032006">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="196608021992032006">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Endang Maryani, S.Pd</td>
+          <td>@198610162010012013</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198610162010012013">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198610162010012013">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198610162010012013">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Henny Mufizawati, S.Pd</td>
+          <td>@198401272009032003</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198401272009032003">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198401272009032003">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198401272009032003">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Zuliah, S.Pd</td>
+          <td>@198007282006042022</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198007282006042022">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198007282006042022">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198007282006042022">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Arie Sumartini, ST</td>
+          <td>@198003152006042013</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198003152006042013">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198003152006042013">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198003152006042013">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sri Wahyuni, ST</td>
+          <td>@197911072007012014</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197911072007012014">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197911072007012014">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197911072007012014">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rochmad Basuki, S.Pd</td>
+          <td>@197908122008031001</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197908122008031001">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197908122008031001">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197908122008031001">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Syarifudin, S.Pd., M.B.A</td>
+          <td>@198506222009031001</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198506222009031001">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198506222009031001">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198506222009031001">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Eni Purwaningsih, S.Pd</td>
+          <td>@197703142006042019</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197703142006042019">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197703142006042019">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197703142006042019">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Syahranuddin Fadli, S.ST.Par</td>
+          <td>@19840628 2010011011</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="19840628 2010011011">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="19840628 2010011011">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="19840628 2010011011">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Yulia Hartati, S.Pd</td>
+          <td>@198203232010012008</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198203232010012008">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198203232010012008">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198203232010012008">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ela Susiani, S.Pd</td>
+          <td>@198210102008012023</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198210102008012023">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198210102008012023">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198210102008012023">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Yana Apriliya, S.ST.Par</td>
+          <td>@198804162011012002</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198804162011012002">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198804162011012002">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198804162011012002">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Vida Nourmalita, S.Pd</td>
+          <td>@198701072010012003</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198701072010012003">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198701072010012003">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198701072010012003">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Pratiwi, S.Pd</td>
+          <td>@198809062024212032</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198809062024212032">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198809062024212032">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198809062024212032">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rotua Silaen, S.Pd</td>
+          <td>@197302132007012010</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197302132007012010">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197302132007012010">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197302132007012010">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Korawati Mujiastutik, S.Pd</td>
+          <td>@199308062022212008</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">1/8/2026, 12.05.21</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199308062022212008">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199308062022212008">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199308062022212008">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rizky Anggraini, S.Pd</td>
+          <td>@199501292022212015</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199501292022212015">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199501292022212015">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199501292022212015">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Andri Cahyadi, S.Tr.Par</td>
+          <td>@197402052023211004</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197402052023211004">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197402052023211004">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197402052023211004">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ani Budiarti, S.Pd</td>
+          <td>@198704012023212029</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198704012023212029">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198704012023212029">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198704012023212029">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rachmad Syafril, S.Pd</td>
+          <td>@199007072023211011</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199007072023211011">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199007072023211011">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199007072023211011">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rasidi, M.Pd.I</td>
+          <td>@198904032023211014</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198904032023211014">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198904032023211014">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198904032023211014">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Mulyadi, S.Pd</td>
+          <td>@199106222023211017</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199106222023211017">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199106222023211017">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199106222023211017">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Mahbub Susanto, S.Sos</td>
+          <td>@198108132023211003</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198108132023211003">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198108132023211003">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198108132023211003">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Yohanes Belmi Lesmana Putra, S.Pd</td>
+          <td>@199110092023211013</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199110092023211013">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199110092023211013">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199110092023211013">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Riana Br. Karo, S.Pd</td>
+          <td>@198109182023212010</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198109182023212010">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198109182023212010">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198109182023212010">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sri Sunarsih, SE</td>
+          <td>@198609162024212024</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198609162024212024">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198609162024212024">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198609162024212024">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Pratiwi, S.Pd</td>
+          <td>@pratiwi2</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="pratiwi2">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="pratiwi2">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="pratiwi2">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Asih Sundari, SE</td>
+          <td>@198903162024212030</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198903162024212030">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198903162024212030">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198903162024212030">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Siti Aisyah Ulumando, S.Pd</td>
+          <td>@198806252024212028</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198806252024212028">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198806252024212028">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198806252024212028">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sumaryati, S.Pd</td>
+          <td>@198809072024212037</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198809072024212037">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198809072024212037">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198809072024212037">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Utin Asfarina, SE</td>
+          <td>@198203202024212010</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198203202024212010">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198203202024212010">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198203202024212010">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Erys Reanda, S.Pd</td>
+          <td>@199005292024211017</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199005292024211017">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199005292024211017">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199005292024211017">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Perliandi, S.Pd</td>
+          <td>@198701062024211010</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198701062024211010">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198701062024211010">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198701062024211010">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Delly Sasmita, S.Pd</td>
+          <td>@198612252024211016</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198612252024211016">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198612252024211016">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198612252024211016">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sri Fhani Riska Putri, S.Pd</td>
+          <td>@199110112024212043</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199110112024212043">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199110112024212043">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199110112024212043">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Hella Cristi, S.Pd</td>
+          <td>@199008042024212027</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199008042024212027">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199008042024212027">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199008042024212027">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Mutiah Wijayanti, S.Pd</td>
+          <td>@199003222024212029</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199003222024212029">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199003222024212029">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199003222024212029">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Tika Sayyidah Sofia, S.Pd</td>
+          <td>@199610102024212058</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199610102024212058">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199610102024212058">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199610102024212058">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">M. Aliyul Qurri, SH, M.Pd</td>
+          <td>@199407062024211020</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199407062024211020">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199407062024211020">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199407062024211020">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Eko Kurniawan, S.Pd</td>
+          <td>@199412162024211016</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199412162024211016">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199412162024211016">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199412162024211016">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Endang Dewi Lestari, S.Tr.Kep</td>
+          <td>@199607192024212033</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199607192024212033">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199607192024212033">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199607192024212033">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ali Nukarta, M.Pd</td>
+          <td>@199111022024211019</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199111022024211019">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199111022024211019">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199111022024211019">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Dian Purnama R, S.Pd</td>
+          <td>@199611262024212000</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199611262024212000">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199611262024212000">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199611262024212000">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Mariana Dita Safitri, S.Pd</td>
+          <td>@199503192024212041</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199503192024212041">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199503192024212041">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199503192024212041">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Syahri Erpandi, S.Pd</td>
+          <td>@199303172024211022</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199303172024211022">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199303172024211022">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199303172024211022">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sri Yuniarti Silaban, S.ST</td>
+          <td>@199006032024212035</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199006032024212035">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199006032024212035">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199006032024212035">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Yuli Prihardiyono, S.IP</td>
+          <td>@199507302024211012</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199507302024211012">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199507302024211012">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199507302024211012">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Weldani, S.Pd.I</td>
+          <td>@198603012024211018</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198603012024211018">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198603012024211018">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198603012024211018">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ridho Pratama, S.Pd</td>
+          <td>@199810152024211007</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199810152024211007">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199810152024211007">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199810152024211007">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Esti Kholisa Hasanah, S.Pd</td>
+          <td>@200006222024212007</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="200006222024212007">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="200006222024212007">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="200006222024212007">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Nur Kamila, S.Sos</td>
+          <td>@199804132024212026</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199804132024212026">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199804132024212026">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199804132024212026">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Putri Sholehah Hasanah, S.Pd</td>
+          <td>@200006222024212010</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="200006222024212010">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="200006222024212010">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="200006222024212010">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sapuan Noor, S.Pd</td>
+          <td>@198712012024211015</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198712012024211015">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198712012024211015">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198712012024211015">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Setyawati, S.Kom</td>
+          <td>@198904272024212027</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198904272024212027">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198904272024212027">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198904272024212027">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Aulia Amana Sari, S.Pd.I</td>
+          <td>@199210152024212055</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199210152024212055">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199210152024212055">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199210152024212055">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rosandhi Saputra, S.Pd</td>
+          <td>@198703202024211010</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198703202024211010">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198703202024211010">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198703202024211010">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Khumaedi, S.Pd.I</td>
+          <td>@198106172024211009</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="198106172024211009">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="198106172024211009">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="198106172024211009">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sri Kurniawati, S.Si</td>
+          <td>@199110072024212032</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199110072024212032">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199110072024212032">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199110072024212032">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Nurul Ismi, S.Pd.I</td>
+          <td>@199212312024212050</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199212312024212050">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199212312024212050">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199212312024212050">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Genoveva Sonia, S.Pd</td>
+          <td>@199905112024212025</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199905112024212025">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199905112024212025">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199905112024212025">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Rini Susilawati, S.Pd</td>
+          <td>@199203062024212023</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199203062024212023">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199203062024212023">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199203062024212023">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Novi Wahyuni, S.Pd</td>
+          <td>@199208162025212047</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199208162025212047">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199208162025212047">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199208162025212047">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ety Aslinda, S.Pd</td>
+          <td>@199502232025212041</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199502232025212041">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199502232025212041">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199502232025212041">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Sudjinartining, S.Pd</td>
+          <td>@197201122022212004</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="197201122022212004">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="197201122022212004">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="197201122022212004">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Ramadhia Putri Utami, S.Tr.Keb</td>
+          <td>@199602092025212035</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199602092025212035">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199602092025212035">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199602092025212035">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Suci Adelia Putri, S.Pd</td>
+          <td>@199912102025212020</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199912102025212020">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199912102025212020">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199912102025212020">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Hasiholan Sitompul, S.Pd.K</td>
+          <td>@hasiholansitompulspdk</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="hasiholansitompulspdk">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="hasiholansitompulspdk">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="hasiholansitompulspdk">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Bong Sin Sang</td>
+          <td>@bongsinsang</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="bongsinsang">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="bongsinsang">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="bongsinsang">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Andriansen Hartanto</td>
+          <td>@andriansenhartanto</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="andriansenhartanto">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="andriansenhartanto">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="andriansenhartanto">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Fransiska Siki, S.Pd</td>
+          <td>@fransiskasikispd</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="fransiskasikispd">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="fransiskasikispd">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="fransiskasikispd">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Nurul Ridhi Utami, S.Pd, M.Pd</td>
+          <td>@nurulridhiutamispdmpd</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="nurulridhiutamispdmpd">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="nurulridhiutamispdmpd">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="nurulridhiutamispdmpd">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">apt. Farhanisa, S.Farm</td>
+          <td>@aptfarhanisasfarm</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="aptfarhanisasfarm">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="aptfarhanisasfarm">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="aptfarhanisasfarm">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Indah Oemardi Putri, S.Par.CGSP</td>
+          <td>@indahoemardiputrisparcgsp</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="indahoemardiputrisparcgsp">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="indahoemardiputrisparcgsp">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="indahoemardiputrisparcgsp">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Cindy Anggraini, S.Pd</td>
+          <td>@cindyanggrainispd</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="cindyanggrainispd">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="cindyanggrainispd">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="cindyanggrainispd">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Neneng Gustiani, S.Pd</td>
+          <td>@nenenggustianispd</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="nenenggustianispd">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="nenenggustianispd">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="nenenggustianispd">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Jelisti Utami, S.Pd</td>
+          <td>@jelistiutamispd</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="jelistiutamispd">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="jelistiutamispd">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="jelistiutamispd">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Arliana, S.Km</td>
+          <td>@arlianaskm</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="arlianaskm">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="arlianaskm">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="arlianaskm">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Supriyadi Sofian, S.E</td>
+          <td>@supriyadisofianse</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="supriyadisofianse">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="supriyadisofianse">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="supriyadisofianse">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Yoni Darmansyah, ST</td>
+          <td>@yonidarmansyahst</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="yonidarmansyahst">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="yonidarmansyahst">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="yonidarmansyahst">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Roci Anggraini, S.Kep, Ns</td>
+          <td>@199004162022212022</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="199004162022212022">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="199004162022212022">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="199004162022212022">Hapus</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-semibold">Nurul Ridhi Utami, S.Pd, M.Pd</td>
+          <td>@none</td>
+          <td><span class="badge badge-idle">Guru</span></td>
+          <td><span class="badge badge-ok">Aktif</span></td>
+          <td class="text-xs">Belum pernah</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="none">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="none">Nonaktifkan</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="none">Hapus</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      </div>
+    </main>
+  </div>
+  
+  </div>
+
+<script>
+/* =========================================================
+   SI SUPAK — single-file application
+   ========================================================= */
+
+/* ---------- Storage helpers (in-memory + best-effort localStorage) ---------- */
+const MEM = {};
+const Store = {
+  get(key, fallback){
+    if (MEM[key] !== undefined) return MEM[key];
+    try{
+      const raw = localStorage.getItem('sisupak:'+key);
+      if (raw){ const v = JSON.parse(raw); MEM[key]=v; return v; }
+    }catch(e){}
+    MEM[key]=fallback; return fallback;
+  },
+  set(key, val){
+    MEM[key]=val;
+    try{ localStorage.setItem('sisupak:'+key, JSON.stringify(val)); }catch(e){}
+  }
+};
+
+async function sha256(text){
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function uid(prefix){ return prefix+'_'+Math.random().toString(36).slice(2,10); }
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function fmtDate(d){ if(!d) return '-'; const dt=new Date(d+'T00:00:00'); return dt.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}); }
+
+/* ---------- Google Sheet sync ----------
+   Sends one row (object keyed by column name) to a Google Apps Script Web App
+   bound to the target spreadsheet. The Web App upserts the row by a key column.
+   Because Apps Script Web Apps commonly block CORS on the response, this uses
+   mode:'no-cors' — the write still happens, but we can't read success/failure
+   back into the app, so it fails silently (by design) if the URL is wrong. */
+let __syncQueueTimer = null;
+function syncRow(sheetName, keyCol, row){
+  const url = (App.school && App.school.sheetWebAppUrl) ? App.school.sheetWebAppUrl.trim() : '';
+  if(!url) return;
+  fetch(url, {
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify({ sheet: sheetName, key: keyCol, row })
+  }).catch(()=>{});
+}
+// Ubah File menjadi base64 (tanpa prefix "data:...;base64,") supaya bisa dikirim
+// sebagai teks ke Apps Script dan disimpan sebagai file asli di Google Drive.
+function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(String(reader.result).split(',')[1] || '');
+    reader.onerror = ()=> reject(new Error('Gagal membaca file.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+/* Kirim satu baris data BESERTA file aslinya (base64) ke Apps Script Web App.
+   Berbeda dari syncRow (yang memakai mode:'no-cors' dan tidak bisa membaca balasan
+   server), fungsi ini membaca balasan JSON dari server supaya aplikasi tahu link
+   Google Drive hasil unggahan dan bisa menampilkan tombol "Unduh". Jika permintaan
+   gagal (mis. URL Web App belum benar, atau CORS diblokir), baris metadata tetap
+   dikirim lewat syncRow sebagai cadangan supaya datanya tidak hilang dari Sheet. */
+async function syncFileRow(sheetName, keyCol, row, file){
+  const url = (App.school && App.school.sheetWebAppUrl) ? App.school.sheetWebAppUrl.trim() : '';
+  if(!url) return {ok:false};
+  try{
+    const base64 = await fileToBase64(file);
+    const payload = {
+      sheet: sheetName, key: keyCol, row,
+      file: { name: file.name, mimeType: file.type || 'application/octet-stream', base64, guru: row.NamaGuru || '', kategori: row.Kategori || '' }
+    };
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    return data;
+  }catch(err){
+    syncRow(sheetName, keyCol, row);
+    return {ok:false, error:String(err)};
+  }
+}
+
+function teacherRow(t){
+  return {
+    GuruID:t.id, Nama:t.name, NIP:t.nip, Username:t.username, MataPelajaran:t.subject, Kelas:t.classes,
+    JadwalPra:t.schedule.pra, JadwalObs:t.schedule.obs, JadwalPasca:t.schedule.pasca,
+    Status:t.status, JumlahDokumen:t.documents.length, TerakhirDiperbarui:new Date().toISOString(),
+    Supervisor:t.supervisor||''
+  };
+}
+
+/* ---------- Seed data: 93 guru ---------- */
+const RAW_TEACHERS = [
+["Erini, SP, M.MPd","erini"],["M. Ajon, S.Pd","majon"],["Irawan, S.Pd","irawan"],
+["Rosilawati, S.Pd","rosilawati"],["Rayadi, S.Pd","rayadi"],["Suryatina, SE","suryatina"],
+["Suryati, S.Pd","suryati"],["Hery Gunawan, S.Kom","herygunawan"],["Ratnawati, S.Pd","ratnawati"],
+["Dyantika Puspitasari, S.Pd","dyantikapuspitasari"],["Wiwin Wulandari, SE","wiwinwulandari"],
+["Sumanti, S.Pd","sumanti"],["Sumiyatun, S.Pd.Ing","sumiyatun"],["Endang Maryani, S.Pd","endangmaryani"],
+["Henny Mufizawati, S.Pd","hennymufizawati"],["Zuliah, S.Pd","zuliah"],["Arie Sumartini, ST","ariesumartini"],
+["Sri Wahyuni, ST","sriwahyuni"],["Rochmad Basuki, S.Pd","rochmadbasuki"],
+["Syarifudin, S.Pd., M.B.A","syarifudin"],["Eni Purwaningsih, S.Pd","enipurwaningsih"],
+["Syahranuddin Fadli, S.ST.Par","syahranuddinfadli"],["Yulia Hartati, S.Pd","yuliahartati"],
+["Ela Susiani, S.Pd","elasusiani"],["Yana Apriliya, S.ST.Par","yanaapriliya"],
+["Vida Nourmalita, S.Pd","vidanourmalita"],["Pratiwi, S.Pd","pratiwi1"],["Rotua Silaen, S.Pd","rotuasilaen"],
+["Roci Anggraini, S.Kep., Ns","rocianggraini"],["Korawati Mujiastutik, S.Pd","korawati"],
+["Rizky Anggraini, S.Pd","rizkyanggraini"],["Andri Cahyadi, S.Tr.Par","andricahyadi"],
+["Ani Budiarti, S.Pd","anibudiarti"],["Rachmad Syafril, S.Pd","rachmadsyafril"],["Rasidi, M.Pd.I","rasidi"],
+["Mulyadi, S.Pd","mulyadi"],["Mahbub Susanto, S.Sos","mahbubsusanto"],
+["Yohanes Belmi Lesmana Putra, S.Pd","yohanesbelmilesmanaputra"],["Riana Br. Karo, S.Pd","rianabrkaro"],
+["Sri Sunarsih, SE","srisunarsih"],["Pratiwi, S.Pd","pratiwi2"],["Asih Sundari, SE","asihsundari"],
+["Siti Aisyah Ulumando, S.Pd","sitiaisyahulumando"],["Sumaryati, S.Pd","sumaryati"],
+["Utin Asfarina, SE","utinasfarina"],["Erys Reanda, S.Pd","erysreanda"],["Perliandi, S.Pd","perliandi"],
+["Delly Sasmita, S.Pd","dellysasmita"],["Sri Fhani Riska Putri, S.Pd","srifhaniriskaputri"],
+["Hella Cristi, S.Pd","hellacristi"],["Mutiah Wijayanti, S.Pd","mutiahwijayanti"],
+["Tika Sayyidah Sofia, S.Pd","tikasayyidahsofia"],["M. Aliyul Qurri, SH, M.Pd","maliyulqurri"],
+["Eko Kurniawan, S.Pd","ekokurniawan"],["Endang Dewi Lestari, S.Tr.Kep","endangdewilestari"],
+["Ali Nukarta, M.Pd","alinukarta"],["Dian Purnama R, S.Pd","dianpurnamar"],
+["Mariana Dita Safitri, S.Pd","marianaditasafitri"],["Syahri Erpandi, S.Pd","syahrierpandi"],
+["Sri Yuniarti Silaban, S.ST","sriyuniartisilaban"],["Yuli Prihardiyono, S.IP","yuliprihardiyono"],
+["Weldani, S.Pd.I","weldani"],["Ridho Pratama, S.Pd","ridhopratama"],
+["Esti Kholisa Hasanah, S.Pd","estikholisahasanah"],["Nur Kamila, S.Sos","nurkamila"],
+["Putri Sholehah Hasanah, S.Pd","putrisholehahhasanah"],["Sapuan Noor, S.Pd","sapuannoor"],
+["Setyawati, S.Kom","setyawati"],["Aulia Amana Sari, S.Pd.I","auliaamanasari"],
+["Rosandhi Saputra, S.Pd","rosandhisaputra"],["Khumaedi, S.Pd.I","khumaedi"],
+["Sri Kurniawati, S.Si","srikurniawati"],["Nurul Ismi, S.Pd.I","nurulismi"],
+["Genoveva Sonia, S.Pd","genovevasonia"],["Rini Susilawati, S.Pd","rinisusilawati"],
+["Novi Wahyuni, S.Pd","noviwahyuni"],["Ety Aslinda, S.Pd","etyaslinda"],
+["Sudjinartining, S.Pd","sudjinartining"],["Ramadhia Putri Utami, S.Tr.Keb","ramadhiaputriutami"],
+["Suci Adelia Putri, S.Pd","suciadeliaputri"],["Hasiholan Sitompul, S.Pd.K","hasiholansitompul"],
+["Bong Sin Sang","bongsinsang"],["Andriansen Hartanto","andriansenhartanto"],
+["Fransiska Siki, S.Pd","fransiskasaki"],["Nurul Ridhi Utami, S.Pd., M.Pd","nurulridhiutami"],
+["apt. Farhanisa, S.Farm","farhanisa"],["Indah Oemardi Putri, S.Par.CGSP","indahoemardiputri"],
+["Cindy Anggraini, S.Pd","cindyanggraini"],["Neneng Gustiani, S.Pd","nenenggustiani"],
+["Jelisti Utami, S.Pd","jelistiutami"],["Arliana, S.Km","arliana"],
+["Supriyadi Sofian, S.E","supriyadisofian"],["Yoni Darmansyah, ST","yonidarmansyah"]
+];
+
+function blankInstrumentData(){
+  return {
+    materiPokok:'', semester:'Ganjil', tahunAjaran:'2025/2026', kelas:'',
+    pra:{ rpp:{}, wawancara:{}, kelebihan:'', peningkatan:'', rekomendasi:'' },
+    obs:{ skor:{}, catatan:{}, bukti:{}, catatanSupervisor:'', rekomendasi:'', tindakLanjut:'' },
+    pasca:{ refleksiGuru:{}, umpanBalik:{}, rencanaAksi:{}, catatanSupervisor:'', kesepakatan:'' },
+    finalScore:null, finalLabel:''
+  };
+}
+
+async function buildInitialState(){
+  const teachers = RAW_TEACHERS.map(([name, username], i)=>({
+    id: uid('gr'), name, nip:'', username,
+    subject:'', classes:'', supervisor:'',
+    documents: [],
+    schedule:{ pra:'', obs:'', pasca:'' },
+    status:'belum', // belum | berjalan | selesai
+    data: blankInstrumentData()
+  }));
+  const adminHash = await sha256('admin123');
+  const defaultHash = await sha256('123456');
+  const users = [
+    { username:'admin', passwordHash: adminHash, role:'kepsek', teacherId:null, active:true, mustChangePassword:false, name:'Kepala Sekolah' }
+  ];
+  for(const t of teachers){
+    users.push({ username: t.username, passwordHash: defaultHash, role:'guru', teacherId: t.id, active:true, mustChangePassword:true, name: t.name });
+  }
+  return {
+    school: { name:'Sekolah Anda', kepsekName:'Nama Kepala Sekolah', kepsekNip:'-', pengawasName:'Nama Pengawas', pengawasNip:'-', sheetWebAppUrl:'' },
+    teachers, users
+  };
+}
+
+/* ---------- Global App State ---------- */
+const App = {
+  school: null, teachers: null, users: null,
+  session: null, // {username, role, teacherId, name}
+  route: 'dashboard',
+  selectedTeacherId: null,
+  toast: null,
+
+  async init(){
+    let seeded = Store.get('seeded', false);
+    if(!seeded){
+      const init = await buildInitialState();
+      Store.set('school', init.school);
+      Store.set('teachers', init.teachers);
+      Store.set('users', init.users);
+      Store.set('seeded', true);
+    }
+    this.school = Store.get('school');
+    this.teachers = Store.get('teachers');
+    this.users = Store.get('users');
+    const sess = Store.get('session', null);
+    this.session = sess;
+    render();
+  },
+  persist(){
+    Store.set('school', this.school);
+    Store.set('teachers', this.teachers);
+    Store.set('users', this.users);
+  },
+  showToast(msg, type){
+    this.toast = {msg, type: type||'ok'};
+    render();
+    clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(()=>{ this.toast=null; render(); }, 2600);
+  },
+  currentTeacher(){
+    if(!this.session) return null;
+    if(this.session.role==='guru') return this.teachers.find(t=>t.id===this.session.teacherId);
+    return this.teachers.find(t=>t.id===this.selectedTeacherId);
+  },
+  async login(username, password, remember){
+    const u = this.users.find(x=>x.username.toLowerCase()===username.trim().toLowerCase());
+    if(!u) return {ok:false, msg:'Username tidak ditemukan.'};
+    if(!u.active) return {ok:false, msg:'Akun ini telah dinonaktifkan. Hubungi Kepala Sekolah.'};
+    const hash = await sha256(password);
+    if(hash !== u.passwordHash) return {ok:false, msg:'Password salah.'};
+    const sess = { username:u.username, role:u.role, teacherId:u.teacherId, name:u.name, mustChangePassword:u.mustChangePassword };
+    this.session = sess;
+    Store.set('session', sess);
+    if(!remember){ /* still kept in memory for this run */ }
+    u.lastLogin = new Date().toISOString();
+    this.persist();
+    syncRow('Akun','Username',{ Username:u.username, NamaLengkap:u.name, Role:u.role, Status:u.active?'Aktif':'Nonaktif', TerakhirLogin:u.lastLogin });
+    this.route = 'dashboard';
+    return {ok:true};
+  },
+  logout(){
+    this.session = null;
+    Store.set('session', null);
+    this.route = 'dashboard';
+    render();
+  },
+  can(menu){
+    if(!this.session) return false;
+    if(this.session.role==='kepsek') return true;
+    const guruMenus = ['dashboard','profil','dokumen','jadwal','instrumen','laporan','akun-sendiri'];
+    return guruMenus.includes(menu);
+  }
+};
+
+/* ---------- Small UI helpers ---------- */
+function el(tag, attrs, children){
+  attrs = attrs||{};
+  let cls = attrs.class ? ` class="${attrs.class}"` : '';
+  return {tag, attrs, cls, children};
+}
+function h(strings, ...vals){ return strings.reduce((acc,s,i)=> acc+s+(vals[i]!==undefined?vals[i]:''), ''); }
+function esc(s){ return (s===undefined||s===null)?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function statusBadge(status){
+  if(status==='selesai') return `<span class="badge badge-ok">Selesai</span>`;
+  if(status==='berjalan') return `<span class="badge badge-warn">Sedang Berjalan</span>`;
+  return `<span class="badge badge-idle">Belum Supervisi</span>`;
+}
+function computeStatus(t){
+  const {pra,obs,pasca} = t.schedule;
+  const hasResult = t.data.finalScore!==null;
+  if(hasResult || (pra&&obs&&pasca && t.data.pasca.kesepakatan)) return 'selesai';
+  if(pra||obs||pasca) return 'berjalan';
+  return 'belum';
+}
+
+/* ================= RENDER ROOT ================= */
+function render(){
+  const root = document.getElementById('root');
+  // Simpan fokus & posisi kursor input aktif (mis. kotak pencarian) sebelum DOM
+  // ditulis ulang, lalu kembalikan sesudahnya — supaya user bisa mengetik nama
+  // tanpa terputus/kehilangan fokus setiap render (dipicu tiap ketikan).
+  const active = document.activeElement;
+  const activeId = (active && active.id) ? active.id : null;
+  const hasSelection = active && typeof active.selectionStart === 'number';
+  const selStart = hasSelection ? active.selectionStart : null;
+  const selEnd = hasSelection ? active.selectionEnd : null;
+
+  if(!App.session){ root.innerHTML = LoginView(); attachLoginHandlers(); return; }
+  // refresh computed status
+  App.teachers.forEach(t=> t.status = computeStatus(t));
+  root.innerHTML = ShellView();
+  attachShellHandlers();
+
+  if(activeId){
+    const el = document.getElementById(activeId);
+    if(el && typeof el.focus === 'function'){
+      el.focus({preventScroll:true});
+      if(selStart!==null && typeof el.setSelectionRange === 'function'){
+        try{ el.setSelectionRange(selStart, selEnd); }catch(e){}
+      }
+    }
+  }
+}
+
+/* ---------- Pencarian pintar (dipakai semua kotak cari di aplikasi) ----------
+   Mengurutkan hasil secara dinamis: kecocokan persis > awalan > mengandung kata
+   kunci, lalu alfabetis. fieldsFn mengembalikan array string yang dicocokkan
+   untuk tiap item (field pertama dipakai sebagai kunci alfabetis/tampilan). */
+function smartSearch(items, query, fieldsFn){
+  const q = (query||'').trim().toLowerCase();
+  if(!q) return items;
+  const scored = [];
+  items.forEach(it=>{
+    const fields = fieldsFn(it).map(f=> (f===undefined||f===null)?'':String(f).toLowerCase());
+    let score = -1;
+    fields.forEach(f=>{
+      if(!f) return;
+      if(f===q) score = Math.max(score,3);
+      else if(f.startsWith(q)) score = Math.max(score,2);
+      else if(f.includes(q)) score = Math.max(score,1);
+    });
+    if(score>=0) scored.push({it, score, primary:fields[0]||''});
+  });
+  scored.sort((a,b)=> b.score-a.score || a.primary.localeCompare(b.primary));
+  return scored.map(x=>x.it);
+}
+
+/* ================= LOGIN VIEW ================= */
+function LoginView(){
+  const schoolName = (App.school && App.school.name && App.school.name!=='Sekolah Anda') ? App.school.name : 'Sekolah Anda';
+  const demoTeacherUser = esc(RAW_TEACHERS[0][1]);
+  return `
+  <div class="min-h-screen flex" style="background:#f4f6f9;">
+    <div class="hidden lg:flex flex-col justify-between w-1/2 p-14 text-white" style="background:#15171c;">
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div style="width:44px;height:44px;border-radius:12px;background:#ffffff;display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15171c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg>
+          </div>
+          <div>
+            <div class="inline-block text-[10px] font-bold tracking-wide px-2 py-1 rounded" style="background:rgba(255,255,255,.1); letter-spacing:.05em;">SI SUPAK</div>
+            <div class="text-xs text-white/50 mt-1 font-semibold">${esc(schoolName)}</div>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-md">
+        <h1 class="display text-4xl font-extrabold leading-tight mb-4">Sistem Informasi<br/>Supervisi<br/>Akademik</h1>
+        <p class="text-white/55 leading-relaxed mb-8">Platform Digital Supervisi Akademik Terintegrasi Kurikulum Nasional untuk Kepala Sekolah, Pengawas, dan Guru.</p>
+        <div class="rounded-xl p-5 space-y-3" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);">
+          ${['Instrumen Digital Pra, Obs & Pasca','Analisis & Rekomendasi Bantuan AI','Laporan Resmi Cetak & Tanda Tangan'].map(t=>`
+          <div class="flex items-center gap-2.5 text-sm text-white/80">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3ecf8e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>
+            <span>${t}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="text-xs text-white/35 pt-8 mt-8" style="border-top:1px solid rgba(255,255,255,.1);">© ${new Date().getFullYear()} SI SUPAK - Kurikulum Nasional</div>
+    </div>
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6">
+      <div class="card w-full max-w-sm p-8 fade-in" style="background:#fff;">
+        <div class="lg:hidden flex items-center gap-2 mb-6">
+          <div style="width:36px;height:36px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);">S</div>
+          <div class="display font-extrabold" style="color:var(--navy)">SI SUPAK</div>
+        </div>
+        <h2 class="display text-2xl font-bold mb-1" style="color:var(--navy)">Selamat Datang Kembali</h2>
+        <p class="text-sm mb-6" style="color:var(--muted)">Silakan masuk menggunakan akun terdaftar Anda.</p>
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label class="text-xs font-semibold block mb-1" style="color:var(--muted); letter-spacing:.04em;">NIP / USERNAME GURU</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3" style="color:var(--muted);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input id="loginUsername" type="text" class="pl-9" placeholder="Masukkan NIP / Username Guru" autocomplete="username" required />
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-semibold block mb-1" style="color:var(--muted); letter-spacing:.04em;">PASSWORD</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3" style="color:var(--muted);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input id="loginPassword" type="password" class="pl-9 pr-9" placeholder="Masukkan password" autocomplete="current-password" required />
+              <button type="button" id="togglePassword" tabindex="-1" class="absolute inset-y-0 right-0 flex items-center pr-3" style="color:var(--muted); background:none; border:none; cursor:pointer;">
+                <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2" style="color:var(--muted)">
+              <input id="rememberMe" type="checkbox" style="width:auto;" checked /> Ingat Saya (Remember Me)
+            </label>
+          </div>
+          <div id="loginError" class="text-sm hidden" style="color:var(--danger)"></div>
+          <button type="submit" class="btn btn-primary w-full py-2.5 flex items-center justify-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            Masuk ke Aplikasi
+          </button>
+        </form>
+        <div class="mt-6 p-4 rounded-lg text-xs leading-relaxed" style="background:#eef4fb; border:1px solid #d9e6f5; color:var(--ink);">
+          <div class="flex items-center gap-1.5 font-semibold mb-2" style="color:var(--info)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            Petunjuk Login Pertama Kali:
+          </div>
+          <ul class="space-y-1.5 pl-4" style="list-style:disc; color:var(--muted)">
+            <li><b>Guru dengan NIP:</b> Masuk menggunakan NIP sebagai Username, Password: <code class="px-1 py-0.5 rounded" style="background:#fff; border:1px solid #d9e6f5;">123456</code></li>
+            <li><b>Guru tanpa NIP:</b> Masuk menggunakan Username yang diberikan oleh Kepala Sekolah (contoh: <code class="px-1 py-0.5 rounded" style="background:#fff; border:1px solid #d9e6f5;">${demoTeacherUser}</code>), Password: <code class="px-1 py-0.5 rounded" style="background:#fff; border:1px solid #d9e6f5;">123456</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function attachLoginHandlers(){
+  const form = document.getElementById('loginForm');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    const remember = document.getElementById('rememberMe').checked;
+    const btn = form.querySelector('button[type=submit]');
+    const btnLabel = btn.innerHTML;
+    btn.innerHTML = 'Memeriksa...'; btn.disabled = true;
+    const res = await App.login(username, password, remember);
+    if(!res.ok){
+      const err = document.getElementById('loginError');
+      err.textContent = res.msg; err.classList.remove('hidden');
+      btn.innerHTML = btnLabel; btn.disabled=false;
+      return;
+    }
+    render();
+  });
+  const toggleBtn = document.getElementById('togglePassword');
+  const pwInput = document.getElementById('loginPassword');
+  const eyeIcon = document.getElementById('eyeIcon');
+  if(toggleBtn){
+    toggleBtn.addEventListener('click', ()=>{
+      const showing = pwInput.type === 'text';
+      pwInput.type = showing ? 'password' : 'text';
+      eyeIcon.innerHTML = showing
+        ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+        : '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.7 18.7 0 0 1 4.22-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.7 18.7 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/>';
+    });
+  }
+}
+
+/* ================= SHELL (post-login) ================= */
+function menuItems(){
+  const role = App.session.role;
+  if(role==='kepsek'){
+    return [
+      {key:'dashboard', label:'Dashboard', icon:'📊'},
+      {key:'program', label:'Program Supervisi', icon:'🗂️'},
+      {key:'guru', label:'Data Guru', icon:'👩‍🏫'},
+      {key:'dokumen', label:'Dokumen Perangkat', icon:'📎'},
+      {key:'instrumen', label:'Instrumen Supervisi', icon:'📝'},
+      {key:'laporan', label:'Laporan Hasil', icon:'📄'},
+      {key:'tindaklanjut', label:'Tindak Lanjut', icon:'✅'},
+      {key:'akun', label:'Manajemen Akun', icon:'🔐'},
+      {key:'pengaturan', label:'Pengaturan Sekolah', icon:'⚙️'},
+    ];
+  }
+  return [
+    {key:'dashboard', label:'Dashboard Guru', icon:'📊'},
+    {key:'profil', label:'Profil Saya', icon:'🙍'},
+    {key:'dokumen', label:'Perangkat Pembelajaran', icon:'📎'},
+    {key:'jadwal', label:'Jadwal Supervisi', icon:'🗓️'},
+    {key:'instrumen', label:'Refleksi Pra/Pasca', icon:'📝'},
+    {key:'laporan', label:'Hasil Supervisi Saya', icon:'📄'},
+    {key:'akun-sendiri', label:'Ganti Password', icon:'🔑'},
+  ];
+}
+
+function ShellView(){
+  const s = App.session;
+  const items = menuItems();
+  const roleLabel = s.role==='kepsek' ? 'Kepala Sekolah' : 'Guru';
+  const identityMissing = App.school.name==='Sekolah Anda';
+  return `
+  <div class="flex min-h-screen">
+    <aside class="w-64 shrink-0 hidden md:flex flex-col justify-between p-4" style="background:linear-gradient(180deg,var(--navy),#0a1a2e); min-height:100vh;">
+      <div>
+        <div class="flex items-center gap-3 px-2 mb-6 mt-2">
+          <div style="width:38px;height:38px;border-radius:10px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;color:#1f1400;">S</div>
+          <div>
+            <div class="display font-extrabold text-white text-[15px] leading-none">SI SUPAK</div>
+            <div class="text-[11px] text-white/45 mt-1">${esc(App.school.name)}</div>
+          </div>
+        </div>
+        <nav class="space-y-1">
+          ${items.map(it=>`<div class="sidebar-link ${App.route===it.key?'active':''}" data-route="${it.key}"><span>${it.icon}</span><span>${it.label}</span></div>`).join('')}
+        </nav>
+      </div>
+      <div class="px-2">
+        <div class="flex items-center gap-2 mb-3 px-2 py-2 rounded-lg" style="background:rgba(255,255,255,.06)">
+          <div style="width:32px;height:32px;border-radius:999px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;color:#1f1400;font-size:13px;">${esc(s.name.slice(0,1))}</div>
+          <div class="min-w-0">
+            <div class="text-white text-xs font-semibold truncate">${esc(s.name)}</div>
+            <div class="text-[10px]"><span class="badge ${s.role==='kepsek'?'badge-warn':'badge-idle'}">${roleLabel}</span></div>
+          </div>
+        </div>
+        <button id="logoutBtn" class="btn btn-ghost w-full text-sm py-2" style="color:#fff;border-color:rgba(255,255,255,.2);">Keluar</button>
+      </div>
+    </aside>
+
+    <main class="flex-1 min-w-0">
+      <header class="md:hidden flex items-center justify-between p-3 text-white" style="background:var(--navy);">
+        <div class="font-bold display">SI SUPAK</div>
+        <select id="mobileNav" class="!w-auto text-black">
+          ${items.map(it=>`<option value="${it.key}" ${App.route===it.key?'selected':''}>${it.label}</option>`).join('')}
+        </select>
+      </header>
+      <div class="p-4 md:p-8 max-w-6xl mx-auto fade-in">
+        ${identityMissing && App.session.role==='kepsek' ? `
+        <div class="mb-6 p-4 rounded-xl flex items-center justify-between gap-4 flex-wrap" style="background:#fbf0dc; border:1px solid #f0d9a6;">
+          <div class="text-sm" style="color:#7a5a12;"><b>Identitas sekolah masih menggunakan data contoh.</b> Lengkapi profil sekolah agar tampil benar di seluruh instrumen dan laporan.</div>
+          <button class="btn btn-gold px-4 py-2 text-sm" data-route="pengaturan">Isi Identitas Sekarang</button>
+        </div>` : ''}
+        ${routeView()}
+      </div>
+    </main>
+  </div>
+  ${App.toast ? `<div class="toast-in fixed bottom-5 right-5 z-50 px-4 py-3 rounded-xl shadow-lg text-sm font-semibold" style="background:${App.toast.type==='ok'?'#1c8a5c':'#c0392b'};color:#fff;">${esc(App.toast.msg)}</div>` : ''}
+  `;
+}
+
+function routeView(){
+  const r = App.route;
+  try{
+    if(r==='dashboard') return App.session.role==='kepsek' ? DashboardKepsek() : DashboardGuru();
+    if(r==='program') return ProgramSupervisi();
+    if(r==='guru') return DataGuru();
+    if(r==='dokumen') return DokumenPerangkat();
+    if(r==='instrumen') return InstrumenView();
+    if(r==='laporan') return LaporanHasil();
+    if(r==='tindaklanjut') return TindakLanjut();
+    if(r==='akun') return ManajemenAkun();
+    if(r==='pengaturan') return PengaturanSekolah();
+    if(r==='profil') return ProfilGuru();
+    if(r==='jadwal') return JadwalGuru();
+    if(r==='akun-sendiri') return GantiPassword();
+  }catch(err){ console.error(err); return `<div class="card p-6 text-sm" style="color:var(--danger)">Terjadi kesalahan saat memuat halaman ini.</div>`; }
+  return `<div class="card p-6">Halaman tidak ditemukan.</div>`;
+}
+
+/* ---------- Shared shell handlers ---------- */
+function attachShellHandlers(){
+  document.querySelectorAll('[data-route]').forEach(node=>{
+    node.addEventListener('click', ()=>{ App.route = node.getAttribute('data-route'); App.selectedTeacherId=null; render(); });
+  });
+  const mob = document.getElementById('mobileNav');
+  if(mob) mob.addEventListener('change', ()=>{ App.route = mob.value; render(); });
+  const logout = document.getElementById('logoutBtn');
+  if(logout) logout.addEventListener('click', ()=> App.logout());
+  attachRouteHandlers();
+  animateCountUps();
+}
+
+/* Animasi hitung-naik untuk angka statistik — dipakai lewat atribut
+   data-countup="<angka target>" pada elemen mana pun di aplikasi. */
+function animateCountUps(){
+  document.querySelectorAll('[data-countup]').forEach(elm=>{
+    const target = parseFloat(elm.getAttribute('data-countup'));
+    if(isNaN(target)){ return; }
+    const duration = 650;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min(1, (now-start)/duration);
+      const eased = 1 - Math.pow(1-p, 3);
+      elm.textContent = Math.round(target*eased);
+      if(p<1) requestAnimationFrame(tick); else elm.textContent = Math.round(target);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+/* Delegated per-route handler attach; each view sets window.__routeHandlers */
+function attachRouteHandlers(){
+  if(window.__routeHandlers) window.__routeHandlers();
+}
+
+/* ================= DASHBOARD: KEPSEK ================= */
+function DashboardKepsek(){
+  const total = App.teachers.length;
+  const selesai = App.teachers.filter(t=>t.status==='selesai').length;
+  const berjalan = App.teachers.filter(t=>t.status==='berjalan').length;
+  const belum = total - selesai - berjalan;
+  const incomplete = App.teachers.filter(t=> t.documents.length===0).length;
+  const upcoming = App.teachers.filter(t=>t.schedule.obs && new Date(t.schedule.obs) >= new Date(todayISO())).sort((a,b)=> new Date(a.schedule.obs)-new Date(b.schedule.obs)).slice(0,5);
+
+  const stat = (label,val,color)=>`
+    <div class="card card-hover p-5">
+      <div class="text-xs font-semibold" style="color:var(--muted)">${label}</div>
+      <div class="display text-3xl font-extrabold mt-2" style="color:${color}" data-countup="${val}">0</div>
+    </div>`;
+
+  window.__routeHandlers = null;
+  return `
+  <div class="mb-6">
+    <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Dashboard Eksekutif</h1>
+    <p class="text-sm mt-1" style="color:var(--muted)">Ringkasan pelaksanaan supervisi akademik ${esc(App.school.name)}.</p>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    ${stat('Total Guru', total, 'var(--navy)')}
+    ${stat('Selesai', selesai, 'var(--ok)')}
+    ${stat('Sedang Berjalan', berjalan, 'var(--warn)')}
+    ${stat('Belum Supervisi', belum, 'var(--muted)')}
+  </div>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="card card-hover p-5 md:col-span-2">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-sm" style="color:var(--navy)">Grafik Progres Supervisi</h3>
+      </div>
+      <div class="space-y-3">
+        ${[['Selesai',selesai,'var(--ok)'],['Sedang Berjalan',berjalan,'var(--warn)'],['Belum Supervisi',belum,'var(--muted)']].map(([label,val,color])=>`
+          <div>
+            <div class="flex justify-between text-xs mb-1" style="color:var(--muted)"><span>${label}</span><span>${val}/${total}</span></div>
+            <div style="background:#eef1f5;height:10px;border-radius:6px;overflow:hidden;">
+              <div class="bar-fill" style="width:${total? (val/total*100):0}%; background:${color}; height:100%;"></div>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="mt-5 pt-4 text-xs" style="border-top:1px solid var(--line); color:var(--muted)">
+        <b style="color:var(--danger)">${incomplete}</b> guru belum melengkapi dokumen perangkat pembelajaran.
+      </div>
+    </div>
+    <div class="card card-hover p-5">
+      <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">Agenda Observasi Mendatang</h3>
+      ${upcoming.length? `<div class="space-y-3">${upcoming.map((t,i)=>`
+        <div class="flex items-center justify-between text-sm row-in" style="animation-delay:${i*40}ms">
+          <div><div class="font-semibold">${esc(t.name)}</div><div class="text-xs" style="color:var(--muted)">${fmtDate(t.schedule.obs)}</div></div>
+        </div>`).join('')}</div>` : `<div class="text-sm" style="color:var(--muted)">Belum ada agenda observasi terjadwal.</div>`}
+    </div>
+  </div>`;
+}
+
+/* ================= DASHBOARD: GURU ================= */
+function DashboardGuru(){
+  const t = App.currentTeacher();
+  if(!t) return `<div class="card p-6">Data guru tidak ditemukan.</div>`;
+  window.__routeHandlers = null;
+  return `
+  <div class="mb-6">
+    <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Selamat datang, ${esc(t.name.split(',')[0])}</h1>
+    <p class="text-sm mt-1" style="color:var(--muted)">Berikut ringkasan status supervisi akademik Anda.</p>
+  </div>
+  <div class="grid md:grid-cols-3 gap-4 mb-6">
+    <div class="card p-5"><div class="text-xs font-semibold" style="color:var(--muted)">Status Supervisi</div><div class="mt-2">${statusBadge(t.status)}</div></div>
+    <div class="card p-5"><div class="text-xs font-semibold" style="color:var(--muted)">Dokumen Diunggah</div><div class="display text-3xl font-extrabold mt-2" style="color:var(--navy)">${t.documents.length}</div></div>
+    <div class="card p-5"><div class="text-xs font-semibold" style="color:var(--muted)">Nilai Akhir</div><div class="display text-3xl font-extrabold mt-2" style="color:var(--navy)">${t.data.finalScore!==null? t.data.finalScore.toFixed(1) : '-'}<span class="text-sm font-semibold" style="color:var(--muted)"> /100</span></div></div>
+  </div>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="card p-5">
+      <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">Jadwal Supervisi</h3>
+      <table><tbody>
+        <tr><td>Pra-Observasi</td><td class="text-right font-semibold">${fmtDate(t.schedule.pra)}</td></tr>
+        <tr><td>Observasi Kelas</td><td class="text-right font-semibold">${fmtDate(t.schedule.obs)}</td></tr>
+        <tr><td>Pasca-Observasi</td><td class="text-right font-semibold">${fmtDate(t.schedule.pasca)}</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card p-5">
+      <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">Catatan &amp; Rekomendasi Kepala Sekolah</h3>
+      <p class="text-sm" style="color:var(--muted)">${esc(t.data.obs.catatanSupervisor || t.data.pasca.catatanSupervisor || 'Belum ada catatan.')}</p>
+    </div>
+  </div>`;
+}
+
+/* ================= PENGATURAN SEKOLAH ================= */
+function PengaturanSekolah(){
+  const s = App.school;
+  window.__routeHandlers = ()=>{
+    document.getElementById('schoolForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      s.name = document.getElementById('f_name').value.trim() || s.name;
+      s.kepsekName = document.getElementById('f_kepsek').value.trim();
+      s.kepsekNip = document.getElementById('f_kepsekNip').value.trim();
+      s.pengawasName = document.getElementById('f_pengawas').value.trim();
+      s.pengawasNip = document.getElementById('f_pengawasNip').value.trim();
+      s.sheetWebAppUrl = document.getElementById('f_sheetUrl').value.trim();
+      App.persist();
+      syncRow('Pengaturan','NamaSekolah',{ NamaSekolah:s.name, NamaKepsek:s.kepsekName, NIPKepsek:s.kepsekNip, NamaPengawas:s.pengawasName, NIPPengawas:s.pengawasNip, TerakhirDiperbarui:new Date().toISOString() });
+      App.showToast('Identitas sekolah berhasil disimpan.');
+    });
+  };
+  return `
+  <h1 class="display text-2xl font-extrabold mb-1" style="color:var(--navy)">Pengaturan Sekolah</h1>
+  <p class="text-sm mb-6" style="color:var(--muted)">Identitas ini otomatis muncul pada kop laporan dan seluruh instrumen.</p>
+  <form id="schoolForm" class="card p-6 space-y-4 max-w-xl">
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">Nama Sekolah</label><input id="f_name" value="${esc(s.name)}" /></div>
+    <div class="grid grid-cols-2 gap-3">
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Nama Kepala Sekolah</label><input id="f_kepsek" value="${esc(s.kepsekName)}" /></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">NIP Kepala Sekolah</label><input id="f_kepsekNip" value="${esc(s.kepsekNip)}" /></div>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Nama Pengawas</label><input id="f_pengawas" value="${esc(s.pengawasName)}" /></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">NIP Pengawas</label><input id="f_pengawasNip" value="${esc(s.pengawasNip)}" /></div>
+    </div>
+    <div class="pt-2" style="border-top:1px solid var(--line);">
+      <label class="text-xs font-semibold" style="color:var(--muted)">URL Web App Google Apps Script (sinkronisasi Google Sheet)</label>
+      <input id="f_sheetUrl" value="${esc(s.sheetWebAppUrl||'')}" placeholder="https://script.google.com/macros/s/.../exec" />
+      <p class="text-xs mt-1" style="color:var(--muted)">Tempel URL Web App hasil deploy Apps Script di sini agar seluruh data yang diisi/diunggah otomatis tersinkron ke Google Sheet. Lihat panduan pemasangan yang disertakan terpisah.</p>
+    </div>
+    <button class="btn btn-primary px-5 py-2.5 text-sm">Simpan Identitas</button>
+  </form>`;
+}
+
+/* ================= DATA GURU ================= */
+/* ---------- Pagination helper (dipakai di Data Guru & Program Supervisi) ---------- */
+const PAGE_SIZE = 10;
+function paginate(items, page, perPage){
+  perPage = perPage || PAGE_SIZE;
+  const totalPages = Math.max(1, Math.ceil(items.length / perPage));
+  const p = Math.min(Math.max(1, page||1), totalPages);
+  const start = (p-1)*perPage;
+  return { pageItems: items.slice(start, start+perPage), totalPages, page:p, totalItems: items.length };
+}
+function paginationBar(prefix, page, totalPages){
+  if(totalPages<=1) return '';
+  let pages = [];
+  for(let i=1;i<=totalPages;i++) pages.push(i);
+  return `<div class="flex items-center justify-between mt-4 flex-wrap gap-2 px-1">
+    <div class="text-xs" style="color:var(--muted)">Halaman ${page} dari ${totalPages}</div>
+    <div class="flex items-center gap-1 flex-wrap">
+      <button class="btn btn-ghost px-3 py-1.5 text-xs" data-pagegroup="${prefix}" data-pageval="${page-1}" ${page<=1?'disabled':''}>‹ Sebelumnya</button>
+      ${pages.map(pnum=>`<button class="btn ${pnum===page?'btn-primary':'btn-ghost'} px-3 py-1.5 text-xs" data-pagegroup="${prefix}" data-pageval="${pnum}">${pnum}</button>`).join('')}
+      <button class="btn btn-ghost px-3 py-1.5 text-xs" data-pagegroup="${prefix}" data-pageval="${page+1}" ${page>=totalPages?'disabled':''}>Selanjutnya ›</button>
+    </div>
+  </div>`;
+}
+function bindPaginationHandlers(){
+  document.querySelectorAll('[data-pagegroup]').forEach(b=> b.addEventListener('click', ()=>{
+    if(b.disabled) return;
+    const prefix = b.getAttribute('data-pagegroup');
+    const val = parseInt(b.getAttribute('data-pageval'),10);
+    if(prefix==='guru') App._guruPage = val;
+    if(prefix==='supervisi') App._supervisiPage = val;
+    if(prefix==='akun') App._akunPage = val;
+    render();
+  }));
+}
+
+function DataGuru(){
+  const q = App._guruQuery || '';
+  const filtered = smartSearch(App.teachers, q, t=>[t.name, t.username]);
+  const pg = paginate(filtered, App._guruPage, PAGE_SIZE);
+  window.__routeHandlers = ()=>{
+    const search = document.getElementById('guruSearch');
+    search.addEventListener('input', ()=>{ App._guruQuery = search.value; App._guruPage = 1; render(); });
+    document.querySelectorAll('[data-edit]').forEach(b=> b.addEventListener('click', ()=> openTeacherModal(b.getAttribute('data-edit'))));
+    document.querySelectorAll('[data-del]').forEach(b=> b.addEventListener('click', ()=>{
+      if(confirm('Hapus data guru ini beserta akunnya?')){
+        const id = b.getAttribute('data-del');
+        App.teachers = App.teachers.filter(t=>t.id!==id);
+        App.users = App.users.filter(u=>u.teacherId!==id);
+        App.persist(); App.showToast('Data guru dihapus.'); render();
+      }
+    }));
+    const addBtn = document.getElementById('addGuruBtn');
+    if(addBtn) addBtn.addEventListener('click', ()=> openTeacherModal(null));
+    const dlTplBtn = document.getElementById('dlTemplateGuru');
+    if(dlTplBtn) dlTplBtn.addEventListener('click', downloadTemplateGuru);
+    const exportBtn = document.getElementById('exportGuruBtn');
+    if(exportBtn) exportBtn.addEventListener('click', exportDataGuru);
+    const deleteAllBtn = document.getElementById('deleteAllGuruBtn');
+    if(deleteAllBtn) deleteAllBtn.addEventListener('click', deleteAllTeachers);
+    const importInput = document.getElementById('importGuruInput');
+    if(importInput) importInput.addEventListener('change', async ()=>{
+      const file = importInput.files[0];
+      importInput.value = '';
+      if(!file) return;
+      await handleImportDataGuru(file);
+    });
+    bindPaginationHandlers();
+  };
+  return `
+  <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Data Guru</h1>
+      <p class="text-sm mt-1" style="color:var(--muted)">${App.teachers.length} guru terdaftar${q? ` — ${filtered.length} cocok dengan "${esc(q)}"`:''}.</p>
+    </div>
+    <div class="flex gap-2">
+      <input id="guruSearch" placeholder="Cari nama / username..." value="${esc(q)}" style="width:220px;" />
+      <button id="addGuruBtn" class="btn btn-primary px-4 py-2 text-sm whitespace-nowrap">+ Tambah Guru</button>
+    </div>
+  </div>
+  <div class="card card-hover p-4 mb-5">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div class="font-bold text-sm" style="color:var(--navy)">Import &amp; Export Data Guru</div>
+        <p class="text-xs mt-1" style="color:var(--muted)">Kelola data guru secara massal lewat Excel. Impor mencocokkan baris berdasarkan <b>Username</b> (kalau ada) atau Nama — jika tidak ditemukan, guru baru otomatis dibuat beserta akun login default (password: 123456).</p>
+      </div>
+      <div class="flex gap-2 flex-shrink-0 flex-wrap">
+        <button id="dlTemplateGuru" class="btn btn-ghost px-4 py-2 text-sm">📥 Unduh Template</button>
+        <button id="exportGuruBtn" class="btn btn-ghost px-4 py-2 text-sm">📄 Export Data Guru</button>
+        <label class="btn btn-gold px-4 py-2 text-sm cursor-pointer inline-block">📤 Impor Data Guru<input id="importGuruInput" type="file" accept=".xlsx,.xls" class="hidden" /></label>
+        <button id="deleteAllGuruBtn" class="btn btn-danger px-4 py-2 text-sm">🗑️ Hapus Semua Data</button>
+      </div>
+    </div>
+  </div>
+  <div class="card overflow-x-auto">
+    <table>
+      <thead><tr><th>Nama / Username</th><th>Mapel</th><th>Kelas</th><th>Jadwal (Pra/Obs/Pasca)</th><th>Dokumen</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        ${pg.pageItems.map((t,i)=>`
+          <tr class="row-in" style="animation-delay:${i*25}ms">
+            <td><div class="font-semibold">${esc(t.name)}</div><div class="text-xs" style="color:var(--muted)">@${esc(t.username)}</div></td>
+            <td>${esc(t.subject)||'-'}</td>
+            <td>${esc(t.classes)||'-'}</td>
+            <td class="text-xs">${fmtDate(t.schedule.pra)}<br/>${fmtDate(t.schedule.obs)}<br/>${fmtDate(t.schedule.pasca)}</td>
+            <td>${t.documents.length? `<span class="badge badge-ok">${t.documents.length} file</span>` : `<span class="badge badge-danger">Kosong</span>`}</td>
+            <td>${statusBadge(t.status)}</td>
+            <td class="whitespace-nowrap">
+              <button class="btn btn-ghost px-2 py-1 text-xs" data-edit="${t.id}">✏️ Edit</button>
+              <button class="btn btn-danger px-2 py-1 text-xs" data-del="${t.id}">Hapus</button>
+            </td>
+          </tr>`).join('') || `<tr><td colspan="7" class="text-center text-sm" style="color:var(--muted)">Tidak ada data yang cocok.</td></tr>`}
+      </tbody>
+    </table>
+  </div>
+  ${paginationBar('guru', pg.page, pg.totalPages)}
+  <div id="modalRoot"></div>`;
+}
+
+/* Hapus seluruh data guru & akun login guru. Perlu konfirmasi ganda karena
+   bersifat massal dan tidak dapat dibatalkan. */
+function deleteAllTeachers(){
+  if(!App.teachers.length){ App.showToast('Data guru sudah kosong.', 'warn'); return; }
+  const ok = confirm(`Yakin ingin menghapus SEMUA data guru (${App.teachers.length} guru) beserta akun login mereka? Tindakan ini TIDAK DAPAT DIBATALKAN.`);
+  if(!ok) return;
+  const typed = prompt('Ketik HAPUS SEMUA (huruf besar) untuk mengonfirmasi penghapusan:');
+  if(typed !== 'HAPUS SEMUA'){ App.showToast('Konfirmasi tidak sesuai — penghapusan dibatalkan.', 'warn'); return; }
+  App.teachers = [];
+  App.users = App.users.filter(u=> u.role!=='guru');
+  App.persist();
+  App._guruPage = 1;
+  App.showToast('Semua data guru berhasil dihapus.');
+  render();
+}
+
+/* ---------- Import / export Data Guru (Excel) ---------- */
+const DATA_GURU_HEADERS = ['Nama','Username','NIP','Mapel','Kelas','Pra-Observasi','Observasi','Pasca-Observasi'];
+
+function downloadTemplateGuru(){
+  const sample = [
+    ['Contoh Nama Guru, S.Pd','contohguru','1234567890','Matematika','X A','2026-01-12','2026-01-19','2026-01-26']
+  ];
+  const aoa = [DATA_GURU_HEADERS, ...sample];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{wch:28},{wch:16},{wch:16},{wch:18},{wch:10},{wch:14},{wch:14},{wch:16}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Guru');
+  XLSX.writeFile(wb, 'Format_Import_Data_Guru.xlsx');
+}
+
+function exportDataGuru(){
+  const aoa = [DATA_GURU_HEADERS.concat(['Status'])];
+  App.teachers.forEach(t=>{
+    aoa.push([t.name, t.username, t.nip||'', t.subject||'', t.classes||'', t.schedule.pra||'', t.schedule.obs||'', t.schedule.pasca||'', t.status||'']);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{wch:28},{wch:16},{wch:16},{wch:18},{wch:10},{wch:14},{wch:14},{wch:16},{wch:14}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Guru');
+  XLSX.writeFile(wb, `Data_Guru_Export_${todayISO()}.xlsx`);
+}
+
+async function handleImportDataGuru(file){
+  if(typeof XLSX === 'undefined'){ App.showToast('Gagal memuat pustaka Excel. Periksa koneksi internet lalu coba lagi.', 'warn'); return; }
+  try{
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, {type:'array'});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, {defval:''});
+    if(!rows.length){ App.showToast('File tidak berisi data. Pastikan memakai format baku.', 'warn'); return; }
+
+    let updated = 0, created = 0;
+    const skipped = [];
+    for(const r of rows){
+      const name = String(getCellByLabel(r,'Nama')||'').trim();
+      const username = String(getCellByLabel(r,'Username')||'').trim().toLowerCase();
+      if(!name && !username) continue;
+
+      let t = username ? App.teachers.find(x=> x.username.toLowerCase()===username) : null;
+      if(!t && name) t = App.teachers.find(x=> x.name.trim().toLowerCase()===name.toLowerCase());
+
+      const nip = String(getCellByLabel(r,'NIP')||'').trim();
+      const mapel = String(getCellByLabel(r,'Mapel')||'').trim();
+      const kelas = String(getCellByLabel(r,'Kelas')||'').trim();
+      const pra = parseExcelDateCell(getCellByLabel(r,'Pra-Observasi'));
+      const obs = parseExcelDateCell(getCellByLabel(r,'Observasi'));
+      const pasca = parseExcelDateCell(getCellByLabel(r,'Pasca-Observasi'));
+
+      if(t){
+        if(name) t.name = name;
+        if(username && username!==t.username){
+          if(App.users.some(u=>u.username===username && u.teacherId!==t.id)){
+            skipped.push(`${name||t.name} (username "${username}" sudah dipakai)`);
+          } else {
+            const u = App.users.find(u=>u.teacherId===t.id); if(u) u.username = username;
+            t.username = username;
+          }
+        }
+        if(nip) t.nip = nip;
+        if(mapel) t.subject = mapel;
+        if(kelas) t.classes = kelas;
+        if(pra) t.schedule.pra = pra;
+        if(obs) t.schedule.obs = obs;
+        if(pasca) t.schedule.pasca = pasca;
+        const u = App.users.find(u=>u.teacherId===t.id); if(u) u.name = t.name;
+        syncRow('DataGuru','GuruID', teacherRow(t));
+        updated++;
+      } else {
+        if(!name || !username){ skipped.push(`${name||username||'(baris kosong)'} (Nama dan Username wajib diisi untuk guru baru)`); continue; }
+        if(App.users.some(u=>u.username===username)){ skipped.push(`${name} (username "${username}" sudah dipakai)`); continue; }
+        const newT = {
+          id: uid('gr'), name, nip, username, subject:mapel, classes:kelas, supervisor:'',
+          documents:[], schedule:{ pra, obs, pasca },
+          status:'belum', data: blankInstrumentData()
+        };
+        App.teachers.push(newT);
+        const hash = await sha256('123456');
+        App.users.push({ username, passwordHash:hash, role:'guru', teacherId:newT.id, active:true, mustChangePassword:true, name });
+        syncRow('DataGuru','GuruID', teacherRow(newT));
+        syncRow('Akun','Username', { Username:username, NamaLengkap:name, Role:'guru', Status:'Aktif', TerakhirLogin:'' });
+        created++;
+      }
+    }
+
+    App.persist();
+    if(updated || created) App.showToast(`Impor selesai: ${updated} guru diperbarui, ${created} guru baru dibuat.`);
+    if(skipped.length){
+      const preview = skipped.slice(0,4).join('; ');
+      App.showToast(`${skipped.length} baris dilewati: ${preview}${skipped.length>4?', ...':''}`, 'warn');
+    }
+    if(!updated && !created && !skipped.length) App.showToast('Tidak ada baris valid yang bisa diimpor.', 'warn');
+    App._guruPage = 1;
+    render();
+  }catch(err){
+    App.showToast('Gagal membaca file Excel. Pastikan formatnya sesuai template.', 'warn');
+  }
+}
+
+async function openTeacherModal(id){
+  const isNew = !id;
+  const t = isNew ? {id:null,name:'',nip:'',username:'',subject:'',classes:'',schedule:{pra:'',obs:'',pasca:''}} : App.teachers.find(x=>x.id===id);
+  const modal = document.getElementById('modalRoot');
+  modal.innerHTML = `
+  <div class="modal-bg" id="teacherModalBg">
+    <div class="card p-6 w-full max-w-lg fade-in">
+      <h3 class="display font-bold text-lg mb-4" style="color:var(--navy)">${isNew?'Tambah Guru':'Edit Data Guru'}</h3>
+      <div class="space-y-3">
+        <div><label class="text-xs font-semibold" style="color:var(--muted)">Nama Lengkap</label><input id="m_name" value="${esc(t.name)}" /></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">NIP</label><input id="m_nip" value="${esc(t.nip)}" /></div>
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">Username</label><input id="m_username" value="${esc(t.username)}" ${!isNew?'':''} /></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">Mata Pelajaran</label><input id="m_subject" value="${esc(t.subject)}" /></div>
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">Kelas Diampu</label><input id="m_classes" value="${esc(t.classes)}" placeholder="mis. X TKJ" /></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">Tgl Pra-Observasi</label><input type="date" id="m_pra" value="${t.schedule.pra}" /></div>
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">Tgl Observasi</label><input type="date" id="m_obs" value="${t.schedule.obs}" /></div>
+          <div><label class="text-xs font-semibold" style="color:var(--muted)">Tgl Pasca-Observasi</label><input type="date" id="m_pasca" value="${t.schedule.pasca}" /></div>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 mt-6">
+        <button class="btn btn-ghost px-4 py-2 text-sm" id="m_cancel">Batal</button>
+        <button class="btn btn-primary px-4 py-2 text-sm" id="m_save">Simpan</button>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('m_cancel').onclick = ()=> modal.innerHTML='';
+  document.getElementById('teacherModalBg').addEventListener('click', (e)=>{ if(e.target.id==='teacherModalBg') modal.innerHTML=''; });
+  document.getElementById('m_save').onclick = async ()=>{
+    const name = document.getElementById('m_name').value.trim();
+    const username = document.getElementById('m_username').value.trim().toLowerCase();
+    if(!name || !username){ alert('Nama dan username wajib diisi.'); return; }
+    if(isNew){
+      if(App.users.some(u=>u.username===username)){ alert('Username sudah digunakan.'); return; }
+      const newT = {
+        id: uid('gr'), name, nip: document.getElementById('m_nip').value.trim(), username,
+        subject: document.getElementById('m_subject').value.trim(), classes: document.getElementById('m_classes').value.trim(),
+        documents:[], schedule:{ pra:document.getElementById('m_pra').value, obs:document.getElementById('m_obs').value, pasca:document.getElementById('m_pasca').value },
+        status:'belum', data: blankInstrumentData()
+      };
+      App.teachers.push(newT);
+      const hash = await sha256('123456');
+      App.users.push({ username, passwordHash:hash, role:'guru', teacherId:newT.id, active:true, mustChangePassword:true, name });
+      syncRow('DataGuru','GuruID', teacherRow(newT));
+      syncRow('Akun','Username', { Username:username, NamaLengkap:name, Role:'guru', Status:'Aktif', TerakhirLogin:'' });
+    } else {
+      t.name = name; t.nip = document.getElementById('m_nip').value.trim();
+      t.subject = document.getElementById('m_subject').value.trim(); t.classes = document.getElementById('m_classes').value.trim();
+      t.schedule.pra = document.getElementById('m_pra').value; t.schedule.obs = document.getElementById('m_obs').value; t.schedule.pasca = document.getElementById('m_pasca').value;
+      const u = App.users.find(u=>u.teacherId===t.id); if(u) u.name = name;
+      syncRow('DataGuru','GuruID', teacherRow(t));
+    }
+    App.persist(); modal.innerHTML=''; App.showToast('Data guru tersimpan.'); render();
+  };
+}
+
+/* ================= DOKUMEN PERANGKAT ================= */
+const DOC_KATEGORI = ['CP/TP/ATP','Modul Ajar','Instrumen Asesmen'];
+function slugKat(s){ return s.replace(/[^a-zA-Z0-9]/g,''); }
+
+function DokumenPerangkat(){
+  const isGuru = App.session.role==='guru';
+  const list = App.teachers;
+  const selId = isGuru ? App.session.teacherId : (App.selectedTeacherId || (list[0] && list[0].id));
+  const sel = list.find(t=>t.id===selId);
+  const q = App._docQuery || '';
+  const filtered = smartSearch(list, q, t=>[t.name, t.username]);
+
+  window.__routeHandlers = ()=>{
+    if(!isGuru){
+      const search = document.getElementById('docSearch');
+      if(search) search.addEventListener('input', ()=>{ App._docQuery = search.value; render(); });
+      document.querySelectorAll('[data-selteacher]').forEach(b=> b.addEventListener('click', ()=>{ App.selectedTeacherId = b.getAttribute('data-selteacher'); render(); }));
+    }
+    DOC_KATEGORI.forEach(cat=>{
+      const upload = document.getElementById('docUpload_'+slugKat(cat));
+      if(upload) upload.addEventListener('change', async ()=>{
+        const files = Array.from(upload.files);
+        if(!files.length) return;
+        App.showToast(`Mengunggah ${files.length} dokumen ke ${cat}...`); render();
+        for(const f of files){
+          const doc = {id:uid('doc'), name:f.name, size:f.size, uploadedAt:new Date().toISOString(), kategori:cat, driveUrl:''};
+          sel.documents.push(doc);
+          App.persist(); render();
+          const rowData = { DokID:doc.id, GuruID:sel.id, NamaGuru:sel.name, Kategori:cat, NamaFile:doc.name, UkuranKB:Math.round(doc.size/1024), TanggalUnggah:doc.uploadedAt };
+          const result = await syncFileRow('Dokumen','DokID', rowData, f);
+          if(result && result.ok && result.url) doc.driveUrl = result.url;
+          App.persist();
+        }
+        syncRow('DataGuru','GuruID', teacherRow(sel));
+        App.showToast(`${files.length} dokumen diunggah ke ${cat}.`); render();
+      });
+    });
+    document.querySelectorAll('[data-rmdoc]').forEach(b=> b.addEventListener('click', ()=>{
+      sel.documents = sel.documents.filter(d=>d.id!==b.getAttribute('data-rmdoc'));
+      App.persist(); syncRow('DataGuru','GuruID', teacherRow(sel)); render();
+    }));
+  };
+
+  const legacyDocs = sel ? sel.documents.filter(d=> !DOC_KATEGORI.includes(d.kategori)) : [];
+  const docBlock = (cat, docs)=>`
+    <div class="mb-5">
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-semibold text-sm" style="color:var(--navy)">${esc(cat)}</div>
+        <label class="btn btn-ghost px-3 py-1.5 text-xs cursor-pointer">+ Unggah<input id="docUpload_${slugKat(cat)}" type="file" multiple class="hidden" /></label>
+      </div>
+      ${docs.length? `<div class="space-y-2">${docs.map(d=>`
+        <div class="flex items-center justify-between p-3 rounded-lg" style="background:#f7f9fb; border:1px solid var(--line);">
+          <div class="flex items-center gap-2 min-w-0"><span>📄</span><span class="text-sm truncate">${esc(d.name)}</span></div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            ${d.driveUrl? `<a href="${esc(d.driveUrl)}" target="_blank" rel="noopener" class="btn btn-ghost px-2 py-1 text-xs">⬇️ Unduh</a>` : `<span class="text-xs" style="color:var(--muted)">Mengunggah...</span>`}
+            <button class="btn btn-danger px-2 py-1 text-xs" data-rmdoc="${d.id}">Hapus</button>
+          </div>
+        </div>`).join('')}</div>` : `<div class="text-xs text-center py-4" style="color:var(--muted)">Belum ada dokumen.</div>`}
+    </div>`;
+
+  return `
+  <h1 class="display text-2xl font-extrabold mb-1" style="color:var(--navy)">${isGuru?'Perangkat Pembelajaran':'Dokumen Perangkat'}</h1>
+  <p class="text-sm mb-6" style="color:var(--muted)">Unggah dokumen perangkat pembelajaran sesuai kategori: CP/TP/ATP, Modul Ajar, dan Instrumen Asesmen.</p>
+  <div class="grid md:grid-cols-3 gap-5">
+    ${!isGuru ? `
+    <div class="card p-4 md:col-span-1">
+      <input id="docSearch" placeholder="Cari guru..." value="${esc(q)}" class="mb-3" />
+      <div class="space-y-1 max-h-[480px] overflow-y-auto">
+        ${filtered.map(t=>`<div data-selteacher="${t.id}" class="sidebar-link" style="color:${sel&&sel.id===t.id?'#fff':'var(--ink)'}; background:${sel&&sel.id===t.id?'var(--navy)':'transparent'};">
+          <span>${sel&&sel.id===t.id? '👤':'👥'}</span><span class="truncate">${esc(t.name)}</span>
+        </div>`).join('')}
+      </div>
+    </div>` : ''}
+    <div class="card p-6 ${isGuru?'md:col-span-3':'md:col-span-2'}">
+      ${sel ? `
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div><div class="font-bold" style="color:var(--navy)">${esc(sel.name)}</div><div class="text-xs" style="color:var(--muted)">${esc(sel.subject)||'Mapel belum diatur'}</div></div>
+      </div>
+      ${DOC_KATEGORI.map(cat=> docBlock(cat, sel.documents.filter(d=>d.kategori===cat))).join('')}
+      ${legacyDocs.length? `
+      <div class="mb-2">
+        <div class="font-semibold text-sm mb-2" style="color:var(--navy)">Dokumen Lainnya</div>
+        <div class="space-y-2">${legacyDocs.map(d=>`
+          <div class="flex items-center justify-between p-3 rounded-lg" style="background:#f7f9fb; border:1px solid var(--line);">
+            <div class="flex items-center gap-2 min-w-0"><span>📄</span><span class="text-sm truncate">${esc(d.name)}</span></div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              ${d.driveUrl? `<a href="${esc(d.driveUrl)}" target="_blank" rel="noopener" class="btn btn-ghost px-2 py-1 text-xs">⬇️ Unduh</a>` : ''}
+              <button class="btn btn-danger px-2 py-1 text-xs" data-rmdoc="${d.id}">Hapus</button>
+            </div>
+          </div>`).join('')}</div>
+      </div>` : ''}
+      ` : `<div class="text-sm" style="color:var(--muted)">Pilih guru terlebih dahulu.</div>`}
+    </div>
+  </div>`;
+}
+
+
+/* ================= PROGRAM SUPERVISI ================= */
+function ProgramSupervisi(){
+  const s = App.school;
+  const q = App._supervisiQuery || '';
+  const base = App.teachers.filter(t=>t.schedule.pra||t.schedule.obs||t.schedule.pasca);
+  const rows = smartSearch(base, q, t=>[t.name, t.nip, t.subject]);
+  const pg = paginate(rows, App._supervisiPage, PAGE_SIZE);
+
+  window.__routeHandlers = ()=>{
+    const search = document.getElementById('supervisiSearch');
+    if(search) search.addEventListener('input', ()=>{ App._supervisiQuery = search.value; App._supervisiPage = 1; render(); });
+    const dlBtn = document.getElementById('dlTemplateSupervisi');
+    if(dlBtn) dlBtn.addEventListener('click', downloadTemplateSupervisi);
+    const exportBtn = document.getElementById('exportSupervisiBtn');
+    if(exportBtn) exportBtn.addEventListener('click', exportProgramSupervisi);
+    const deleteAllBtn = document.getElementById('deleteAllSupervisiBtn');
+    if(deleteAllBtn) deleteAllBtn.addEventListener('click', deleteAllSupervisiData);
+    const importInput = document.getElementById('importSupervisiInput');
+    if(importInput) importInput.addEventListener('change', async ()=>{
+      const file = importInput.files[0];
+      importInput.value = '';
+      if(!file) return;
+      await handleImportSupervisi(file);
+    });
+    bindPaginationHandlers();
+  };
+
+  return `
+  <div class="flex items-center justify-between mb-1 flex-wrap gap-3">
+    <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Program Supervisi Akademik</h1>
+    <input id="supervisiSearch" placeholder="Cari nama guru..." value="${esc(q)}" style="width:220px;" />
+  </div>
+  <p class="text-sm mb-6" style="color:var(--muted)">${esc(s.name)} — Tahun Pelajaran berjalan${q? ` — ${rows.length} guru cocok dengan "${esc(q)}"`:''}</p>
+  <div class="grid md:grid-cols-2 gap-5 mb-6">
+    <div class="card card-hover p-5">
+      <h3 class="font-bold text-sm mb-2" style="color:var(--navy)">Latar Belakang &amp; Tujuan Strategis</h3>
+      <p class="text-sm" style="color:var(--muted)">Supervisi akademik dilaksanakan untuk memastikan implementasi Kurikulum Nasional berjalan optimal, meningkatkan kualitas Pembelajaran Mendalam, dan mendorong penguatan Kokurikuler secara berkelanjutan.</p>
+    </div>
+    <div class="card card-hover p-5">
+      <h3 class="font-bold text-sm mb-2" style="color:var(--navy)">Teknik Supervisi</h3>
+      <ul class="text-sm space-y-1" style="color:var(--muted)">
+        <li>• Observasi kelas langsung</li>
+        <li>• Wawancara pra &amp; pasca observasi</li>
+        <li>• Studi dokumen perangkat pembelajaran</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card card-hover p-4 mb-5">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div class="font-bold text-sm" style="color:var(--navy)">Import, Export &amp; Kelola Data Supervisi</div>
+        <p class="text-xs mt-1" style="color:var(--muted)">Unduh format baku Excel, isi data Guru/NIP/Mapel/Kelas/Jadwal/Supervisor, lalu impor kembali untuk memperbarui data secara massal. Kolom "Guru" harus persis sama dengan nama guru yang sudah terdaftar.</p>
+      </div>
+      <div class="flex gap-2 flex-shrink-0 flex-wrap">
+        <button id="dlTemplateSupervisi" class="btn btn-ghost px-4 py-2 text-sm">📥 Unduh Format Excel</button>
+        <button id="exportSupervisiBtn" class="btn btn-ghost px-4 py-2 text-sm">📄 Export Data</button>
+        <label class="btn btn-gold px-4 py-2 text-sm cursor-pointer inline-block">📤 Impor Data Supervisi<input id="importSupervisiInput" type="file" accept=".xlsx,.xls" class="hidden" /></label>
+        <button id="deleteAllSupervisiBtn" class="btn btn-danger px-4 py-2 text-sm">🗑️ Hapus Semua Data</button>
+      </div>
+    </div>
+  </div>
+  <div class="card overflow-x-auto">
+    <table>
+      <thead><tr><th>Guru</th><th>NIP</th><th>Mapel</th><th>Kelas</th><th>Pra-Observasi</th><th>Observasi</th><th>Pasca-Observasi</th><th>Supervisor</th></tr></thead>
+      <tbody>
+      ${pg.pageItems.length? pg.pageItems.map((t,i)=>`
+        <tr class="row-in" style="animation-delay:${i*25}ms">
+          <td class="font-semibold">${esc(t.name)}</td><td>${esc(t.nip)||'-'}</td><td>${esc(t.subject)||'-'}</td><td>${esc(t.classes)||'-'}</td>
+          <td>${fmtDate(t.schedule.pra)}</td><td>${fmtDate(t.schedule.obs)}</td><td>${fmtDate(t.schedule.pasca)}</td>
+          <td>${esc(t.supervisor)||esc(s.kepsekName)}</td>
+        </tr>`).join('') : `<tr><td colspan="8" class="text-center text-sm py-6" style="color:var(--muted)">${q? 'Tidak ada guru yang cocok dengan pencarian.' : 'Data jadwal masih kosong. Lengkapi tanggal supervisi di menu Data Guru, atau impor lewat tombol di atas.'}</td></tr>`}
+      </tbody>
+    </table>
+  </div>
+  ${paginationBar('supervisi', pg.page, pg.totalPages)}`;
+}
+
+/* Export data Program Supervisi yang sedang tampil (guru dengan jadwal terisi)
+   ke Excel — untuk arsip/laporan, terpisah dari "Unduh Format Excel" yang
+   ditujukan untuk diedit lalu diimpor kembali. */
+function exportProgramSupervisi(){
+  const s = App.school;
+  const rows = App.teachers.filter(t=>t.schedule.pra||t.schedule.obs||t.schedule.pasca);
+  const aoa = [SUPERVISI_TEMPLATE_HEADERS, ...rows.map(t=>[t.name, t.nip||'', t.subject||'', t.classes||'', t.schedule.pra||'', t.schedule.obs||'', t.schedule.pasca||'', t.supervisor||s.kepsekName||''])];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{wch:28},{wch:16},{wch:18},{wch:10},{wch:14},{wch:14},{wch:16},{wch:22}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Program Supervisi');
+  XLSX.writeFile(wb, `Program_Supervisi_Export_${todayISO()}.xlsx`);
+}
+
+/* Hapus seluruh jadwal & supervisor Program Supervisi untuk semua guru (data
+   guru itu sendiri tidak dihapus). Perlu konfirmasi ganda karena bersifat
+   massal dan tidak dapat dibatalkan. */
+function deleteAllSupervisiData(){
+  const rows = App.teachers.filter(t=>t.schedule.pra||t.schedule.obs||t.schedule.pasca);
+  if(!rows.length){ App.showToast('Belum ada data jadwal supervisi untuk dihapus.', 'warn'); return; }
+  const ok = confirm(`Yakin ingin menghapus SEMUA data Program Supervisi (jadwal Pra/Obs/Pasca & Supervisor) untuk ${rows.length} guru? Data guru itu sendiri tidak akan terhapus. Tindakan ini TIDAK DAPAT DIBATALKAN.`);
+  if(!ok) return;
+  const typed = prompt('Ketik HAPUS SEMUA (huruf besar) untuk mengonfirmasi penghapusan:');
+  if(typed !== 'HAPUS SEMUA'){ App.showToast('Konfirmasi tidak sesuai — penghapusan dibatalkan.', 'warn'); return; }
+  App.teachers.forEach(t=>{
+    t.schedule = { pra:'', obs:'', pasca:'' };
+    t.supervisor = '';
+    syncRow('DataGuru','GuruID', teacherRow(t));
+  });
+  App.persist();
+  App._supervisiPage = 1;
+  App.showToast('Semua data Program Supervisi berhasil dihapus.');
+  render();
+}
+
+/* ---------- Import / export Program Supervisi (Excel) ---------- */
+const SUPERVISI_TEMPLATE_HEADERS = ['Guru','NIP','Mapel','Kelas','Pra-Observasi','Observasi','Pasca-Observasi','Supervisor'];
+
+function downloadTemplateSupervisi(){
+  const sample = App.teachers.map(t=>[t.name, t.nip||'', t.subject||'', t.classes||'', t.schedule.pra||'', t.schedule.obs||'', t.schedule.pasca||'', t.supervisor||App.school.kepsekName||'']);
+  const aoa = [SUPERVISI_TEMPLATE_HEADERS, ...sample];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{wch:28},{wch:16},{wch:18},{wch:10},{wch:14},{wch:14},{wch:16},{wch:22}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Program Supervisi');
+  XLSX.writeFile(wb, 'Format_Import_Program_Supervisi.xlsx');
+}
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+// Konversi nilai sel Excel (angka serial atau teks tanggal) menjadi format ISO yyyy-mm-dd.
+function parseExcelDateCell(val){
+  if(val===undefined || val===null || val==='') return '';
+  if(typeof val === 'number'){
+    const utcDays = Math.floor(val - 25569);
+    const utcMs = utcDays * 86400 * 1000;
+    const d = new Date(utcMs);
+    if(isNaN(d.getTime())) return '';
+    return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth()+1)}-${pad2(d.getUTCDate())}`;
+  }
+  const s = String(val).trim();
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if(m) return `${m[1]}-${pad2(m[2])}-${pad2(m[3])}`;
+  m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+  if(m) return `${m[3]}-${pad2(m[2])}-${pad2(m[1])}`;
+  return '';
+}
+function getCellByLabel(row, label){
+  const key = Object.keys(row).find(k=> k.trim().toLowerCase() === label.toLowerCase());
+  return key!==undefined ? row[key] : '';
+}
+
+async function handleImportSupervisi(file){
+  if(typeof XLSX === 'undefined'){ App.showToast('Gagal memuat pustaka Excel. Periksa koneksi internet lalu coba lagi.', 'warn'); return; }
+  try{
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, {type:'array'});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, {defval:''});
+    if(!rows.length){ App.showToast('File tidak berisi data. Pastikan memakai format baku.', 'warn'); return; }
+
+    let updated = 0;
+    const notFound = [];
+    rows.forEach(r=>{
+      const name = String(getCellByLabel(r,'Guru')||'').trim();
+      if(!name) return;
+      const t = App.teachers.find(x=> x.name.trim().toLowerCase() === name.toLowerCase());
+      if(!t){ notFound.push(name); return; }
+
+      const nip = String(getCellByLabel(r,'NIP')||'').trim(); if(nip) t.nip = nip;
+      const mapel = String(getCellByLabel(r,'Mapel')||'').trim(); if(mapel) t.subject = mapel;
+      const kelas = String(getCellByLabel(r,'Kelas')||'').trim(); if(kelas) t.classes = kelas;
+      const pra = parseExcelDateCell(getCellByLabel(r,'Pra-Observasi')); if(pra) t.schedule.pra = pra;
+      const obs = parseExcelDateCell(getCellByLabel(r,'Observasi')); if(obs) t.schedule.obs = obs;
+      const pasca = parseExcelDateCell(getCellByLabel(r,'Pasca-Observasi')); if(pasca) t.schedule.pasca = pasca;
+      const sup = String(getCellByLabel(r,'Supervisor')||'').trim(); if(sup) t.supervisor = sup;
+
+      syncRow('DataGuru','GuruID', teacherRow(t));
+      updated++;
+    });
+
+    App.persist();
+    if(updated) App.showToast(`${updated} data guru berhasil diperbarui dari file impor.`);
+    if(notFound.length){
+      const preview = notFound.slice(0,5).join(', ');
+      App.showToast(`${notFound.length} nama guru tidak ditemukan: ${preview}${notFound.length>5?', ...':''}`, 'warn');
+    }
+    if(!updated && !notFound.length) App.showToast('Tidak ada baris valid yang bisa diimpor.', 'warn');
+    App._supervisiPage = 1;
+    render();
+  }catch(err){
+    App.showToast('Gagal membaca file Excel. Pastikan formatnya sesuai template.', 'warn');
+  }
+}
+
+/* ================= INSTRUMEN ================= */
+const RPP_POINTS = [
+  "Identitas modul ajar / RPP lengkap","Kompetensi awal / prasyarat dicantumkan","Profil lulusan/Kokurikuler relevan tercantum",
+  "Sarana dan prasarana disebutkan","Target peserta didik jelas","Model/moda pembelajaran sesuai","Tujuan pembelajaran terukur dan jelas",
+  "Asesmen awal (diagnostik) tersedia","Pemahaman bermakna dirumuskan","Pertanyaan pemantik relevan","Kegiatan pendahuluan terstruktur",
+  "Kegiatan inti mencerminkan Pembelajaran Mendalam","Diferensiasi pembelajaran terlihat","Kegiatan penutup mencakup refleksi",
+  "Asesmen formatif tersedia","Asesmen sumatif tersedia","Rubrik penilaian jelas","Pengayaan &amp; remedial dicantumkan",
+  "Lampiran materi ajar tersedia","Lembar Kerja Murid (LKPD) tersedia"
+];
+const OBS_ASPEK = {
+  perencanaan: {title:'A. Perencanaan', items:['Kesesuaian modul ajar dengan pelaksanaan','Kejelasan tujuan pembelajaran yang disampaikan','Kesiapan media dan sumber belajar']},
+  pengelolaanKelas: {title:'B. Pengelolaan Kelas', items:['Pengaturan kondisi kelas mendukung pembelajaran','Pengelolaan waktu efektif','Interaksi guru-murid positif']},
+  pembelajaranMendalam: {title:'C. Implementasi Pembelajaran Mendalam', items:['Keselarasan (kesesuaian tujuan, aktivitas, asesmen)','Kerangka (mind, heart, hands terintegrasi)','Langkah (memahami, mengaplikasi, merefleksi)']},
+  asesmen: {title:'D. Asesmen', items:['Asesmen dilakukan selama proses pembelajaran','Umpan balik diberikan kepada murid','Instrumen asesmen sesuai tujuan pembelajaran']},
+  penguatanKokurikuler: {title:'E. Penguatan Kokurikuler', items:['Nilai-nilai karakter terintegrasi dalam pembelajaran','Kegiatan mendorong kolaborasi &amp; kemandirian murid']},
+};
+const PASCA_REFLEKSI_Q = [
+  "Apa yang menurut Bapak/Ibu berjalan baik dalam pembelajaran tadi?",
+  "Bagian mana yang menurut Bapak/Ibu masih perlu diperbaiki?",
+  "Apakah tujuan pembelajaran tercapai sesuai rencana?",
+  "Bagaimana respons murid terhadap kegiatan pembelajaran?",
+  "Apa rencana perbaikan untuk pembelajaran berikutnya?"
+];
+const PASCA_UMPAN_ASPEK = ['Perencanaan','Pembelajaran Mendalam','Pengelolaan Kelas','Asesmen','Refleksi'];
+
+function InstrumenView(){
+  const isGuru = App.session.role==='guru';
+  const list = App.teachers;
+  const selId = isGuru ? App.session.teacherId : (App.selectedTeacherId || (list[0]&&list[0].id));
+  const sel = list.find(t=>t.id===selId);
+  const tab = App._instTab || 'pra';
+
+  window.__routeHandlers = ()=>{
+    if(!isGuru){
+      const picker = document.getElementById('instTeacherPicker');
+      if(picker) picker.addEventListener('change', ()=>{ App.selectedTeacherId = picker.value; render(); });
+    }
+    document.querySelectorAll('[data-tab]').forEach(b=> b.addEventListener('click', ()=>{ App._instTab = b.getAttribute('data-tab'); render(); }));
+    attachInstrumentFormHandlers(sel, tab, isGuru);
+  };
+
+  return `
+  <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+    <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Instrumen Supervisi</h1>
+    ${!isGuru ? `<select id="instTeacherPicker" style="width:260px;">${list.map(t=>`<option value="${t.id}" ${sel&&sel.id===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select>` : ''}
+  </div>
+  ${!sel? `<div class="card p-6 text-sm" style="color:var(--muted)">Pilih guru terlebih dahulu.</div>` : `
+  <div class="flex gap-2 mb-5 flex-wrap">
+    <button data-tab="pra" class="btn ${tab==='pra'?'btn-primary':'btn-ghost'} px-4 py-2 text-sm">Pra-Observasi</button>
+    <button data-tab="obs" class="btn ${tab==='obs'?'btn-primary':'btn-ghost'} px-4 py-2 text-sm">Observasi Kelas</button>
+    <button data-tab="pasca" class="btn ${tab==='pasca'?'btn-primary':'btn-ghost'} px-4 py-2 text-sm">Pasca-Observasi</button>
+  </div>
+  <div class="card p-5 mb-5">
+    <div class="grid md:grid-cols-4 gap-3">
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Guru</label><input value="${esc(sel.name)}" disabled /></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Materi Pokok</label><input id="f_materi" value="${esc(sel.data.materiPokok)}" ${isGuru&&tab==='obs'?'disabled':''} /></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Semester</label><select id="f_semester" ${isGuru&&tab==='obs'?'disabled':''}><option ${sel.data.semester==='Ganjil'?'selected':''}>Ganjil</option><option ${sel.data.semester==='Genap'?'selected':''}>Genap</option></select></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Tahun Pelajaran</label><input id="f_tahun" value="${esc(sel.data.tahunAjaran)}" ${isGuru&&tab==='obs'?'disabled':''} /></div>
+    </div>
+  </div>
+  ${tab==='pra'? PraObservasiForm(sel, isGuru) : tab==='obs'? ObservasiForm(sel, isGuru) : PascaObservasiForm(sel, isGuru)}
+  `}`;
+}
+
+function PraObservasiForm(t, isGuru){
+  const rpp = t.data.pra.rpp, wawancara = t.data.pra.wawancara;
+  const wawancaraQ = ['Tujuan pembelajaran yang ingin dicapai','Strategi/model yang akan digunakan','Persiapan alat dan bahan ajar','Metode pengukuran ketercapaian tujuan','Antisipasi tantangan yang mungkin muncul','Fokus kompetensi yang ingin diobservasi'];
+  return `
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-1" style="color:var(--navy)">A. Instrumen Telaah RPP / Modul Ajar</h3>
+    <p class="text-xs mb-4" style="color:var(--muted)">${isGuru? 'Diisi oleh Kepala Sekolah. Tandai Ya/Tidak untuk setiap komponen, sertakan catatan bila perlu.' : 'Tandai Ya/Tidak untuk setiap komponen, sertakan catatan bila perlu.'}</p>
+    <div class="overflow-x-auto">
+      <table><thead><tr><th style="width:4%">No</th><th>Komponen</th><th style="width:14%">Penilaian</th><th style="width:30%">Catatan</th></tr></thead>
+      <tbody>
+      ${RPP_POINTS.map((p,i)=>`
+        <tr>
+          <td>${i+1}</td><td>${p}</td>
+          <td class="text-center">
+            <button data-rpp="${i}" data-val="ya" class="scale-btn ${rpp[i]==='ya'?'on':''}" style="width:34px;height:34px;${isGuru?'opacity:.5;cursor:not-allowed;':''}" ${isGuru?'disabled':''}>✓</button>
+            <button data-rpp="${i}" data-val="tidak" class="scale-btn ${rpp[i]==='tidak'?'on':''}" style="width:34px;height:34px;${isGuru?'opacity:.5;cursor:not-allowed;':''}" ${isGuru?'disabled':''}>✕</button>
+          </td>
+          <td><input data-rppnote="${i}" value="${esc((t.data.pra.rppNotes&&t.data.pra.rppNotes[i])||'')}" placeholder="Catatan..." ${isGuru?'disabled':''} /></td>
+        </tr>`).join('')}
+      </tbody></table>
+    </div>
+  </div>
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">B. Wawancara Pra-Observasi</h3>
+    <div class="space-y-3">
+      ${wawancaraQ.map((q,i)=>`
+        <div><label class="text-xs font-semibold" style="color:var(--muted)">${i+1}. ${q}</label><textarea data-wawancara="${i}" rows="2" placeholder="Jawaban guru...">${esc(wawancara[i]||'')}</textarea></div>`).join('')}
+    </div>
+  </div>
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">Dokumen RPP / Modul Ajar</h3>
+    <label class="btn btn-ghost px-4 py-2 text-sm cursor-pointer inline-block mb-3">+ Unggah Dokumen<input id="praDocUpload" type="file" multiple class="hidden" /></label>
+    <div class="space-y-2">
+      ${t.documents.map(d=>`<div class="text-sm flex items-center justify-between gap-2" style="color:var(--muted)"><span>📄 ${esc(d.name)}</span>${d.driveUrl? `<a href="${esc(d.driveUrl)}" target="_blank" rel="noopener" class="text-xs font-semibold" style="color:var(--info)">Unduh</a>` : ''}</div>`).join('') || `<div class="text-xs" style="color:var(--muted)">Belum ada dokumen.</div>`}
+    </div>
+  </div>
+  <div class="card p-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">Catatan Tambahan</h3>
+    <p class="text-xs mb-3" style="color:var(--muted)">${isGuru? 'Diisi oleh Kepala Sekolah.' : ''}</p>
+    <div class="space-y-3">
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Kelebihan Perencanaan Pembelajaran</label><textarea id="f_kelebihan" rows="2" ${isGuru?'disabled':''}>${esc(t.data.pra.kelebihan)}</textarea></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Hal yang Perlu Ditingkatkan</label><textarea id="f_peningkatan" rows="2" ${isGuru?'disabled':''}>${esc(t.data.pra.peningkatan)}</textarea></div>
+      <div><label class="text-xs font-semibold" style="color:var(--muted)">Rekomendasi &amp; Revisi (Prinsip Pembelajaran Mendalam)</label><textarea id="f_rekomendasi" rows="2" ${isGuru?'disabled':''}>${esc(t.data.pra.rekomendasi)}</textarea></div>
+    </div>
+    <div class="flex justify-end mt-4"><button id="saveInstBtn" class="btn btn-primary px-5 py-2.5 text-sm">${isGuru?'Simpan Wawancara':'Simpan Pra-Observasi'}</button></div>
+  </div>`;
+}
+
+function ObservasiForm(t, isGuru){
+  const d = t.data.obs;
+  let flatIdx = 0;
+  const sections = Object.entries(OBS_ASPEK).map(([key,sec])=>{
+    const rows = sec.items.map((item)=>{
+      const idx = key+'_'+(flatIdx++);
+      const score = d.skor[idx]||0;
+      return `
+      <tr>
+        <td>${item}</td>
+        <td class="text-center whitespace-nowrap">
+          ${[1,2,3,4].map(v=>`<button data-score="${idx}" data-val="${v}" class="scale-btn ${score==v?'on':''}" style="${isGuru?'opacity:.5;cursor:not-allowed;':''}" ${isGuru?'disabled':''}>${v}</button>`).join(' ')}
+        </td>
+        <td><input data-bukti="${idx}" value="${esc(d.bukti[idx]||'')}" placeholder="Bukti pembelajaran..." ${isGuru?'disabled':''} /></td>
+        <td><input data-obsnote="${idx}" value="${esc(d.catatan[idx]||'')}" placeholder="Catatan..." ${isGuru?'disabled':''} /></td>
+      </tr>`;
+    }).join('');
+    return `<div class="mb-4"><div class="font-semibold text-sm mb-2" style="color:var(--navy)">${sec.title}</div>
+      <div class="overflow-x-auto"><table><thead><tr><th>Indikator</th><th style="width:18%">Skor (1–4)</th><th style="width:24%">Bukti Pembelajaran</th><th style="width:24%">Catatan</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  }).join('');
+
+  return `
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-4" style="color:var(--navy)">Lembar Observasi Kelas</h3>
+    ${isGuru? `<p class="text-xs mb-4" style="color:var(--muted)">Diisi oleh Kepala Sekolah.</p>` : ''}
+    ${sections}
+  </div>
+  <div class="card p-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">F. Refleksi Guru (diisi setelah observasi)</h3>
+    <textarea id="f_refleksiObs" rows="3" placeholder="Refleksi singkat guru pasca kegiatan pembelajaran...">${esc(d.refleksiGuru||'')}</textarea>
+    ${!isGuru? `
+    <h3 class="font-bold text-sm mt-5 mb-3" style="color:var(--navy)">Catatan &amp; Rekomendasi Supervisor</h3>
+    <div class="space-y-3">
+      <textarea id="f_obsCatatan" rows="2" placeholder="Catatan supervisor...">${esc(d.catatanSupervisor)}</textarea>
+      <textarea id="f_obsRekomendasi" rows="2" placeholder="Rekomendasi...">${esc(d.rekomendasi)}</textarea>
+      <textarea id="f_obsTindakLanjut" rows="2" placeholder="Rencana tindak lanjut...">${esc(d.tindakLanjut)}</textarea>
+    </div>` : ''}
+    <div class="flex justify-end mt-4"><button id="saveInstBtn" class="btn btn-primary px-5 py-2.5 text-sm">Simpan Observasi</button></div>
+  </div>`;
+}
+
+function PascaObservasiForm(t, isGuru){
+  const d = t.data.pasca;
+  return `
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">A. Refleksi Guru</h3>
+    <div class="space-y-3">
+      ${PASCA_REFLEKSI_Q.map((q,i)=>`<div><label class="text-xs font-semibold" style="color:var(--muted)">${i+1}. ${q}</label><textarea data-refleksi="${i}" rows="2">${esc(d.refleksiGuru[i]||'')}</textarea></div>`).join('')}
+    </div>
+  </div>
+  ${!isGuru? `
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">B. Umpan Balik Supervisor</h3>
+    <div class="overflow-x-auto"><table><thead><tr><th>Aspek</th><th>Apresiasi (Kekuatan)</th><th>Area Pengembangan</th></tr></thead><tbody>
+      ${PASCA_UMPAN_ASPEK.map((a,i)=>`
+        <tr><td class="font-semibold">${a}</td>
+        <td><input data-umpankuat="${i}" value="${esc((d.umpanBalik[i]&&d.umpanBalik[i].kuat)||'')}" /></td>
+        <td><input data-umpandev="${i}" value="${esc((d.umpanBalik[i]&&d.umpanBalik[i].dev)||'')}" /></td></tr>`).join('')}
+    </tbody></table></div>
+  </div>
+  <div class="card p-5 mb-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">C. Rencana Tindak Lanjut</h3>
+    <div class="overflow-x-auto"><table><thead><tr><th>Aspek</th><th>Tindak Lanjut Disepakati</th><th>Penanggung Jawab</th><th>Waktu</th></tr></thead><tbody>
+      ${PASCA_UMPAN_ASPEK.map((a,i)=>`
+        <tr><td class="font-semibold">${a}</td>
+        <td><input data-aksi="${i}" value="${esc((d.rencanaAksi[i]&&d.rencanaAksi[i].aksi)||'')}" /></td>
+        <td><input data-pic="${i}" value="${esc((d.rencanaAksi[i]&&d.rencanaAksi[i].pic)||'')}" /></td>
+        <td><input data-waktu="${i}" value="${esc((d.rencanaAksi[i]&&d.rencanaAksi[i].waktu)||'')}" /></td></tr>`).join('')}
+    </tbody></table></div>
+  </div>
+  <div class="card p-5">
+    <h3 class="font-bold text-sm mb-3" style="color:var(--navy)">Catatan Supervisor &amp; Kesepakatan Bersama</h3>
+    <textarea id="f_pascaCatatan" rows="2" placeholder="Catatan supervisor...">${esc(d.catatanSupervisor)}</textarea>
+    <textarea id="f_pascaKesepakatan" rows="2" class="mt-3" placeholder="Kesepakatan bersama...">${esc(d.kesepakatan)}</textarea>
+    <div class="flex justify-end mt-4"><button id="saveInstBtn" class="btn btn-primary px-5 py-2.5 text-sm">Simpan &amp; Selesaikan</button></div>
+  </div>` : `<div class="card p-5"><div class="flex justify-end"><button id="saveInstBtn" class="btn btn-primary px-5 py-2.5 text-sm">Simpan Refleksi</button></div></div>`}`;
+}
+
+function attachInstrumentFormHandlers(t, tab, isGuru){
+  if(!t) return;
+  if(!isGuru){
+    document.querySelectorAll('[data-rpp]').forEach(b=> b.addEventListener('click', ()=>{
+      t.data.pra.rpp[b.getAttribute('data-rpp')] = b.getAttribute('data-val'); render();
+    }));
+  }
+  const praUpload = document.getElementById('praDocUpload');
+  if(praUpload) praUpload.addEventListener('change', async ()=>{
+    const files = Array.from(praUpload.files);
+    if(!files.length) return;
+    App.showToast(`Mengunggah ${files.length} dokumen...`); render();
+    for(const f of files){
+      const doc = {id:uid('doc'), name:f.name, size:f.size, uploadedAt:new Date().toISOString(), kategori:'Modul Ajar', driveUrl:''};
+      t.documents.push(doc);
+      App.persist(); render();
+      const rowData = { DokID:doc.id, GuruID:t.id, NamaGuru:t.name, Kategori:doc.kategori, NamaFile:doc.name, UkuranKB:Math.round(doc.size/1024), TanggalUnggah:doc.uploadedAt };
+      const result = await syncFileRow('Dokumen','DokID', rowData, f);
+      if(result && result.ok && result.url) doc.driveUrl = result.url;
+      App.persist();
+    }
+    syncRow('DataGuru','GuruID', teacherRow(t));
+    App.showToast(`${files.length} dokumen diunggah.`); render();
+  });
+  const saveBtn = document.getElementById('saveInstBtn');
+  if(saveBtn) saveBtn.addEventListener('click', ()=> saveInstrument(t, tab));
+}
+
+function readInstrumentFormIntoState(t, tab){
+  const materi = document.getElementById('f_materi'); if(materi && !materi.disabled) t.data.materiPokok = materi.value;
+  const sem = document.getElementById('f_semester'); if(sem && !sem.disabled) t.data.semester = sem.value;
+  const tahun = document.getElementById('f_tahun'); if(tahun && !tahun.disabled) t.data.tahunAjaran = tahun.value;
+
+  if(tab==='pra'){
+    document.querySelectorAll('[data-rppnote]').forEach(inp=>{ if(inp.disabled) return; t.data.pra.rppNotes = t.data.pra.rppNotes||{}; t.data.pra.rppNotes[inp.getAttribute('data-rppnote')] = inp.value; });
+    document.querySelectorAll('[data-wawancara]').forEach(inp=> t.data.pra.wawancara[inp.getAttribute('data-wawancara')] = inp.value);
+    const k=document.getElementById('f_kelebihan'), p=document.getElementById('f_peningkatan'), r=document.getElementById('f_rekomendasi');
+    if(k && !k.disabled) t.data.pra.kelebihan = k.value; if(p && !p.disabled) t.data.pra.peningkatan = p.value; if(r && !r.disabled) t.data.pra.rekomendasi = r.value;
+  }
+  if(tab==='obs'){
+    document.querySelectorAll('[data-score]').forEach(b=>{ /* handled by click below */ });
+    document.querySelectorAll('[data-bukti]').forEach(inp=>{ if(!inp.disabled) t.data.obs.bukti[inp.getAttribute('data-bukti')] = inp.value; });
+    document.querySelectorAll('[data-obsnote]').forEach(inp=>{ if(!inp.disabled) t.data.obs.catatan[inp.getAttribute('data-obsnote')] = inp.value; });
+    const rg=document.getElementById('f_refleksiObs'); if(rg) t.data.obs.refleksiGuru = rg.value;
+    const c=document.getElementById('f_obsCatatan'), rk=document.getElementById('f_obsRekomendasi'), tl=document.getElementById('f_obsTindakLanjut');
+    if(c) t.data.obs.catatanSupervisor = c.value; if(rk) t.data.obs.rekomendasi = rk.value; if(tl) t.data.obs.tindakLanjut = tl.value;
+    // compute final score: rata-rata skor (skala 1-4) dikonversi ke skala 0-100
+    const vals = Object.values(t.data.obs.skor).filter(v=>v>0);
+    if(vals.length){
+      const avg = vals.reduce((a,b)=>a+b,0)/vals.length; // skala 1-4
+      const nilai100 = (avg/4)*100; // skala 0-100
+      t.data.finalScore = nilai100;
+      t.data.finalLabel = nilai100>=87.5?'Sangat Baik': nilai100>=62.5?'Baik': nilai100>=37.5?'Cukup':'Perlu Bimbingan';
+    }
+  }
+  if(tab==='pasca'){
+    document.querySelectorAll('[data-refleksi]').forEach(inp=> t.data.pasca.refleksiGuru[inp.getAttribute('data-refleksi')] = inp.value);
+    document.querySelectorAll('[data-umpankuat]').forEach(inp=>{ const i=inp.getAttribute('data-umpankuat'); t.data.pasca.umpanBalik[i]=t.data.pasca.umpanBalik[i]||{}; t.data.pasca.umpanBalik[i].kuat=inp.value; });
+    document.querySelectorAll('[data-umpandev]').forEach(inp=>{ const i=inp.getAttribute('data-umpandev'); t.data.pasca.umpanBalik[i]=t.data.pasca.umpanBalik[i]||{}; t.data.pasca.umpanBalik[i].dev=inp.value; });
+    document.querySelectorAll('[data-aksi]').forEach(inp=>{ const i=inp.getAttribute('data-aksi'); t.data.pasca.rencanaAksi[i]=t.data.pasca.rencanaAksi[i]||{}; t.data.pasca.rencanaAksi[i].aksi=inp.value; });
+    document.querySelectorAll('[data-pic]').forEach(inp=>{ const i=inp.getAttribute('data-pic'); t.data.pasca.rencanaAksi[i]=t.data.pasca.rencanaAksi[i]||{}; t.data.pasca.rencanaAksi[i].pic=inp.value; });
+    document.querySelectorAll('[data-waktu]').forEach(inp=>{ const i=inp.getAttribute('data-waktu'); t.data.pasca.rencanaAksi[i]=t.data.pasca.rencanaAksi[i]||{}; t.data.pasca.rencanaAksi[i].waktu=inp.value; });
+    const c=document.getElementById('f_pascaCatatan'), ks=document.getElementById('f_pascaKesepakatan');
+    if(c) t.data.pasca.catatanSupervisor = c.value; if(ks) t.data.pasca.kesepakatan = ks.value;
+  }
+}
+
+// score buttons for observasi need direct binding (delegated after render, so bind here too)
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('[data-score]');
+  if(btn && !btn.disabled){
+    const t = App.currentTeacher(); if(!t) return;
+    if(App.session && App.session.role==='guru') return; // hasil observasi kelas hanya diisi Kepala Sekolah
+    t.data.obs.skor[btn.getAttribute('data-score')] = parseInt(btn.getAttribute('data-val'),10);
+    render();
+  }
+});
+
+function riwayatKey(t){
+  // Satu kunci per siklus supervisi guru (guru + semester + tahun ajaran),
+  // supaya setiap siklus baru tersimpan sebagai baris riwayat baru di Sheet,
+  // bukan menimpa data siklus sebelumnya.
+  return t.id+'__'+(t.data.semester||'-')+'__'+(t.data.tahunAjaran||'-');
+}
+
+function saveInstrument(t, tab){
+  readInstrumentFormIntoState(t, tab);
+  App.persist();
+  const now = new Date().toISOString();
+  const rid = riwayatKey(t);
+  if(tab==='pra'){
+    const rppYa = Object.values(t.data.pra.rpp).filter(v=>v==='ya').length;
+    const rppTidak = Object.values(t.data.pra.rpp).filter(v=>v==='tidak').length;
+    syncRow('PraObservasi','RiwayatID', {
+      RiwayatID:rid, GuruID:t.id, NamaGuru:t.name, Semester:t.data.semester, TahunAjaran:t.data.tahunAjaran, MateriPokok:t.data.materiPokok,
+      RPP_Ya:rppYa, RPP_Tidak:rppTidak, CatatanRPP_JSON:JSON.stringify(t.data.pra.rppNotes||{}),
+      Wawancara_JSON:JSON.stringify(t.data.pra.wawancara), Kelebihan:t.data.pra.kelebihan,
+      Peningkatan:t.data.pra.peningkatan, Rekomendasi:t.data.pra.rekomendasi, TerakhirDiperbarui:now
+    });
+  } else if(tab==='obs'){
+    syncRow('Observasi','RiwayatID', {
+      RiwayatID:rid, GuruID:t.id, NamaGuru:t.name, Semester:t.data.semester, TahunAjaran:t.data.tahunAjaran, MateriPokok:t.data.materiPokok,
+      Skor_JSON:JSON.stringify(t.data.obs.skor), Bukti_JSON:JSON.stringify(t.data.obs.bukti), Catatan_JSON:JSON.stringify(t.data.obs.catatan),
+      RefleksiGuru:t.data.obs.refleksiGuru, CatatanSupervisor:t.data.obs.catatanSupervisor, Rekomendasi:t.data.obs.rekomendasi,
+      TindakLanjut:t.data.obs.tindakLanjut, NilaiAkhir:t.data.finalScore, Label:t.data.finalLabel, TerakhirDiperbarui:now
+    });
+  } else if(tab==='pasca'){
+    syncRow('PascaObservasi','RiwayatID', {
+      RiwayatID:rid, GuruID:t.id, NamaGuru:t.name, Semester:t.data.semester, TahunAjaran:t.data.tahunAjaran,
+      Refleksi_JSON:JSON.stringify(t.data.pasca.refleksiGuru),
+      UmpanBalik_JSON:JSON.stringify(t.data.pasca.umpanBalik), RencanaAksi_JSON:JSON.stringify(t.data.pasca.rencanaAksi),
+      CatatanSupervisor:t.data.pasca.catatanSupervisor, Kesepakatan:t.data.pasca.kesepakatan, TerakhirDiperbarui:now
+    });
+  }
+  syncRow('DataGuru','GuruID', teacherRow(t));
+  App.showToast('Data instrumen tersimpan.');
+  render();
+}
+
+/* ================= LAPORAN HASIL ================= */
+function LaporanHasil(){
+  const isGuru = App.session.role==='guru';
+  const list = App.teachers;
+  const selId = isGuru? App.session.teacherId : (App.selectedTeacherId || (list[0]&&list[0].id));
+  const t = list.find(x=>x.id===selId);
+  const s = App.school;
+
+  window.__routeHandlers = ()=>{
+    if(!isGuru){
+      const picker = document.getElementById('lapTeacherPicker');
+      if(picker) picker.addEventListener('change', ()=>{ App.selectedTeacherId = picker.value; render(); });
+    }
+    const printBtn = document.getElementById('printBtn');
+    if(printBtn) printBtn.addEventListener('click', ()=> window.print());
+  };
+
+  if(!t) return `<div class="card p-6">Belum ada data.</div>`;
+  const d = t.data;
+  return `
+  <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+    <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Laporan Hasil Supervisi</h1>
+    <div class="flex gap-2">
+      ${!isGuru? `<select id="lapTeacherPicker" style="width:240px;">${list.map(x=>`<option value="${x.id}" ${x.id===t.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select>` : ''}
+      <button id="printBtn" class="btn btn-gold px-4 py-2 text-sm">🖨️ Cetak</button>
+    </div>
+  </div>
+  <div class="card p-8 max-w-3xl mx-auto" id="printArea">
+    <div class="text-center mb-6 pb-4" style="border-bottom:2px solid var(--navy);">
+      <div class="font-bold" style="color:var(--navy)">${esc(s.name)}</div>
+      <div class="display text-xl font-extrabold mt-1" style="color:var(--navy)">LAPORAN HASIL SUPERVISI AKADEMIK</div>
+      <div class="text-xs mt-1" style="color:var(--muted)">Semester ${esc(d.semester)} — Tahun Pelajaran ${esc(d.tahunAjaran)}</div>
+    </div>
+    <table class="mb-5"><tbody>
+      <tr><td style="width:40%" class="font-semibold">Nama Guru</td><td>: ${esc(t.name)}</td></tr>
+      <tr><td class="font-semibold">NIP</td><td>: ${esc(t.nip)||'-'}</td></tr>
+      <tr><td class="font-semibold">Mata Pelajaran</td><td>: ${esc(t.subject)||'-'}</td></tr>
+      <tr><td class="font-semibold">Kelas</td><td>: ${esc(t.classes)||'-'}</td></tr>
+      <tr><td class="font-semibold">Materi Pokok</td><td>: ${esc(d.materiPokok)||'-'}</td></tr>
+      <tr><td class="font-semibold">Tanggal Observasi</td><td>: ${fmtDate(t.schedule.obs)}</td></tr>
+    </tbody></table>
+    <div class="mb-5">
+      <div class="font-bold text-sm mb-2" style="color:var(--navy)">Nilai Akhir</div>
+      <div class="flex items-center gap-3">
+        <div class="display text-3xl font-extrabold" style="color:var(--navy)">${d.finalScore!==null? d.finalScore.toFixed(1):'-'}<span class="text-sm font-semibold" style="color:var(--muted)"> /100</span></div>
+        <span class="badge badge-ok">${esc(d.finalLabel)||'Belum dinilai'}</span>
+      </div>
+    </div>
+    <div class="mb-5">
+      <div class="font-bold text-sm mb-1" style="color:var(--navy)">Analisis Temuan — Kelebihan</div>
+      <p class="text-sm" style="color:var(--muted)">${esc(d.pra.kelebihan)||'-'}</p>
+    </div>
+    <div class="mb-5">
+      <div class="font-bold text-sm mb-1" style="color:var(--navy)">Analisis Temuan — Area Pengembangan</div>
+      <p class="text-sm" style="color:var(--muted)">${esc(d.pra.peningkatan)||esc(d.obs.catatanSupervisor)||'-'}</p>
+    </div>
+    <div class="mb-5">
+      <div class="font-bold text-sm mb-1" style="color:var(--navy)">Rekomendasi Perbaikan</div>
+      <p class="text-sm" style="color:var(--muted)">${esc(d.obs.rekomendasi)||esc(d.pra.rekomendasi)||'-'}</p>
+    </div>
+    <div class="grid grid-cols-2 gap-6 mt-10 text-sm text-center">
+      <div><div class="mb-16">Pengawas,</div><div class="font-bold" style="border-top:1px solid var(--ink); display:inline-block; padding-top:4px;">${esc(s.pengawasName)}</div><div class="text-xs">NIP. ${esc(s.pengawasNip)}</div></div>
+      <div>
+        <div class="text-xs mb-2" style="color:var(--muted)">${esc(s.name)}, ${fmtDate(t.schedule.pasca)}</div>
+        <div class="mb-14">Kepala Sekolah,</div>
+        <div class="font-bold" style="border-top:1px solid var(--ink); display:inline-block; padding-top:4px;">${esc(s.kepsekName)}</div><div class="text-xs">NIP. ${esc(s.kepsekNip)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= TINDAK LANJUT ================= */
+function TindakLanjut(){
+  window.__routeHandlers = null;
+  const rows = App.teachers.filter(t=> t.data.pasca.kesepakatan || Object.keys(t.data.pasca.rencanaAksi||{}).length);
+  return `
+  <h1 class="display text-2xl font-extrabold mb-1" style="color:var(--navy)">Tindak Lanjut &amp; Evaluasi</h1>
+  <p class="text-sm mb-6" style="color:var(--muted)">Pemantauan program pembinaan dan capaian target perbaikan pembelajaran.</p>
+  <div class="card overflow-x-auto">
+    <table>
+      <thead><tr><th>Guru</th><th>Tindak Lanjut Disepakati</th><th>Penanggung Jawab</th><th>Waktu</th><th>Status</th></tr></thead>
+      <tbody>
+      ${rows.length? rows.map(t=>{
+        const aksi = Object.values(t.data.pasca.rencanaAksi||{});
+        return aksi.map(a=>`<tr><td class="font-semibold">${esc(t.name)}</td><td>${esc(a.aksi)||'-'}</td><td>${esc(a.pic)||'-'}</td><td>${esc(a.waktu)||'-'}</td><td>${statusBadge(t.status)}</td></tr>`).join('');
+      }).join('') : `<tr><td colspan="5" class="text-center text-sm py-6" style="color:var(--muted)">Belum ada rencana tindak lanjut tercatat.</td></tr>`}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+/* ================= MANAJEMEN AKUN ================= */
+function ManajemenAkun(){
+  const q = App._akunQuery || '';
+  const filtered = smartSearch(App.users, q, u=>[u.name, u.username]);
+  const pg = paginate(filtered, App._akunPage, PAGE_SIZE);
+  window.__routeHandlers = ()=>{
+    const search = document.getElementById('akunSearch');
+    if(search) search.addEventListener('input', ()=>{ App._akunQuery = search.value; App._akunPage = 1; render(); });
+    document.querySelectorAll('[data-toggle]').forEach(b=> b.addEventListener('click', ()=>{
+      const u = App.users.find(x=>x.username===b.getAttribute('data-toggle')); u.active = !u.active; App.persist();
+      syncRow('Akun','Username',{ Username:u.username, NamaLengkap:u.name, Role:u.role, Status:u.active?'Aktif':'Nonaktif', TerakhirLogin:u.lastLogin||'' });
+      render();
+    }));
+    document.querySelectorAll('[data-reset]').forEach(b=> b.addEventListener('click', async ()=>{
+      const u = App.users.find(x=>x.username===b.getAttribute('data-reset'));
+      const np = prompt(`Password baru untuk ${u.name} (min. 6 karakter):`, '123456');
+      if(np && np.length>=6){
+        u.passwordHash = await sha256(np); u.mustChangePassword = true; App.persist();
+        syncRow('Akun','Username',{ Username:u.username, NamaLengkap:u.name, Role:u.role, Status:u.active?'Aktif':'Nonaktif', TerakhirLogin:u.lastLogin||'' });
+        App.showToast('Password berhasil direset.');
+      }
+    }));
+    document.querySelectorAll('[data-delacc]').forEach(b=> b.addEventListener('click', ()=>{
+      if(b.getAttribute('data-delacc')==='admin'){ alert('Akun Kepala Sekolah utama tidak dapat dihapus.'); return; }
+      if(confirm('Hapus akun ini?')){ App.users = App.users.filter(u=>u.username!==b.getAttribute('data-delacc')); App.persist(); render(); }
+    }));
+    bindPaginationHandlers();
+  };
+  return `
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <div>
+      <h1 class="display text-2xl font-extrabold" style="color:var(--navy)">Manajemen Akun</h1>
+      <p class="text-sm mt-1" style="color:var(--muted)">${App.users.length} akun terdaftar (1 Kepala Sekolah, ${App.users.length-1} Guru)${q? ` — ${filtered.length} cocok dengan "${esc(q)}"`:''}.</p>
+    </div>
+    <input id="akunSearch" placeholder="Cari akun..." value="${esc(q)}" style="width:220px;" />
+  </div>
+  <div class="card overflow-x-auto">
+    <table>
+      <thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Status</th><th>Login Terakhir</th><th></th></tr></thead>
+      <tbody>
+      ${pg.pageItems.length? pg.pageItems.map((u,i)=>`
+        <tr class="row-in" style="animation-delay:${i*25}ms">
+          <td class="font-semibold">${esc(u.name)}</td>
+          <td>@${esc(u.username)}</td>
+          <td><span class="badge ${u.role==='kepsek'?'badge-warn':'badge-idle'}">${u.role==='kepsek'?'Kepala Sekolah':'Guru'}</span></td>
+          <td>${u.active? `<span class="badge badge-ok">Aktif</span>`:`<span class="badge badge-danger">Nonaktif</span>`}</td>
+          <td class="text-xs">${u.lastLogin? new Date(u.lastLogin).toLocaleString('id-ID') : 'Belum pernah'}</td>
+          <td class="whitespace-nowrap">
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-reset="${u.username}">Reset Password</button>
+            <button class="btn btn-ghost px-2 py-1 text-xs" data-toggle="${u.username}">${u.active?'Nonaktifkan':'Aktifkan'}</button>
+            <button class="btn btn-danger px-2 py-1 text-xs" data-delacc="${u.username}">Hapus</button>
+          </td>
+        </tr>`).join('') : `<tr><td colspan="6" class="text-center text-sm py-6" style="color:var(--muted)">Tidak ada akun yang cocok.</td></tr>`}
+      </tbody>
+    </table>
+  </div>
+  ${paginationBar('akun', pg.page, pg.totalPages)}`;
+}
+
+/* ================= GURU-ONLY: Profil, Jadwal, Ganti Password ================= */
+function ProfilGuru(){
+  const t = App.currentTeacher();
+  window.__routeHandlers = ()=>{
+    document.getElementById('profilForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      t.nip = document.getElementById('pf_nip').value.trim();
+      t.subject = document.getElementById('pf_subject').value.trim();
+      t.classes = document.getElementById('pf_classes').value.trim();
+      App.persist();
+      syncRow('DataGuru','GuruID', teacherRow(t));
+      App.showToast('Profil berhasil diperbarui.');
+      render();
+    });
+  };
+  return `
+  <h1 class="display text-2xl font-extrabold mb-6" style="color:var(--navy)">Profil Saya</h1>
+  <form id="profilForm" class="card p-6 max-w-lg space-y-3">
+    <div><div class="text-xs font-semibold" style="color:var(--muted)">Nama Lengkap</div><div class="font-semibold">${esc(t.name)}</div></div>
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">NIP</label><input id="pf_nip" value="${esc(t.nip)}" /></div>
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">Mata Pelajaran</label><input id="pf_subject" value="${esc(t.subject)}" /></div>
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">Kelas Diampu</label><input id="pf_classes" value="${esc(t.classes)}" placeholder="mis. XI TKJ 1, XI TKJ 2" /></div>
+    <div><div class="text-xs font-semibold" style="color:var(--muted)">Username</div><div>@${esc(t.username)}</div></div>
+    <button class="btn btn-primary px-5 py-2.5 text-sm">Simpan Profil</button>
+  </form>
+  <p class="text-xs mt-3" style="color:var(--muted)">Nama Lengkap dan Username hanya dapat diubah oleh Kepala Sekolah.</p>`;
+}
+function JadwalGuru(){
+  const t = App.currentTeacher();
+  window.__routeHandlers = null;
+  return `
+  <h1 class="display text-2xl font-extrabold mb-6" style="color:var(--navy)">Jadwal Supervisi</h1>
+  <div class="card p-6 max-w-lg">
+    <table><tbody>
+      <tr><td>Pra-Observasi</td><td class="text-right font-semibold">${fmtDate(t.schedule.pra)}</td></tr>
+      <tr><td>Observasi Kelas</td><td class="text-right font-semibold">${fmtDate(t.schedule.obs)}</td></tr>
+      <tr><td>Pasca-Observasi</td><td class="text-right font-semibold">${fmtDate(t.schedule.pasca)}</td></tr>
+    </tbody></table>
+  </div>`;
+}
+function GantiPassword(){
+  window.__routeHandlers = ()=>{
+    document.getElementById('pwForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const u = App.users.find(x=>x.username===App.session.username);
+      const cur = document.getElementById('pw_current').value;
+      const curHash = await sha256(cur);
+      const err = document.getElementById('pwErr'); err.classList.add('hidden');
+      if(curHash !== u.passwordHash){ err.textContent='Password saat ini salah.'; err.classList.remove('hidden'); return; }
+      const np = document.getElementById('pw_new').value;
+      const np2 = document.getElementById('pw_confirm').value;
+      if(np.length<6){ err.textContent='Password baru minimal 6 karakter.'; err.classList.remove('hidden'); return; }
+      if(np!==np2){ err.textContent='Konfirmasi password tidak cocok.'; err.classList.remove('hidden'); return; }
+      u.passwordHash = await sha256(np); u.mustChangePassword=false; App.persist();
+      App.showToast('Password berhasil diperbarui.');
+      document.getElementById('pwForm').reset();
+    });
+  };
+  const mustChange = App.session.mustChangePassword;
+  return `
+  <h1 class="display text-2xl font-extrabold mb-1" style="color:var(--navy)">Ganti Password</h1>
+  ${mustChange? `<div class="mb-4 p-3 rounded-lg text-sm" style="background:#fbf0dc;color:#7a5a12;">Demi keamanan, disarankan mengganti password default Anda.</div>` : ''}
+  <form id="pwForm" class="card p-6 max-w-sm space-y-3 mt-4">
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">Password Saat Ini</label><input type="password" id="pw_current" required /></div>
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">Password Baru</label><input type="password" id="pw_new" required /></div>
+    <div><label class="text-xs font-semibold" style="color:var(--muted)">Konfirmasi Password Baru</label><input type="password" id="pw_confirm" required /></div>
+    <div id="pwErr" class="text-sm hidden" style="color:var(--danger)"></div>
+    <button class="btn btn-primary w-full py-2.5 text-sm">Simpan Password</button>
+  </form>`;
+}
+
+/* ================= BOOT ================= */
+App.init();
+</script>
+
+
+</body></html>
